@@ -483,10 +483,30 @@ async function startAnalysis() {
   document.getElementById('liveBadge').style.animation = 'pulse 1.5s infinite';
 
   try {
+    setProgress(5, 'Loading video...');
+
+    // First verify the key works before touching the video
+    setProgress(5, 'Verifying API key...');
+    let testKey;
+    try {
+      testKey = await getAnthropicKey();
+    } catch(keyErr) {
+      throw new Error('Could not get API key from Apps Script: ' + keyErr.message + '. Make sure ANTHROPIC_API_KEY is set in Script Properties and the script is redeployed.');
+    }
+
+    setProgress(10, 'Loading video...');
     const video = document.getElementById('videoEl');
     video.src = URL.createObjectURL(uploadedFile);
-    await new Promise(resolve => { video.onloadedmetadata = resolve; });
+
+    // Wait for metadata with a timeout fallback
+    await new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => reject(new Error('Video took too long to load. Try a shorter clip or different format.')), 15000);
+      video.onloadedmetadata = () => { clearTimeout(timeout); resolve(); };
+      video.onerror = () => { clearTimeout(timeout); reject(new Error('Could not load video. Make sure it is a valid MP4 or MOV file.')); };
+    });
+
     const duration = video.duration;
+    if (!duration || duration < 1) throw new Error('Video duration is too short or could not be read.');
     runningStats.minutesPlayed = Math.max(1, Math.round(duration / 60));
     updateLiveDisplay();
 
@@ -624,7 +644,13 @@ async function startAnalysis() {
 
   } catch(e) {
     console.error('Analysis error:', e);
-    setProgress(0, 'Error: ' + (e.message || String(e)));
+    const msg = e.message || String(e);
+    setProgress(0, 'Error: ' + msg);
+    // Show error prominently
+    document.getElementById('progressTitle').textContent = 'Something went wrong';
+    document.getElementById('progressTitle').style.color = '#e05a4e';
+    document.getElementById('progressStatus').textContent = msg;
+    document.getElementById('progressStatus').style.color = '#e05a4e';
   }
 
   btn.disabled = false;

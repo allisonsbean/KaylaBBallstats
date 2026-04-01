@@ -207,6 +207,10 @@
 
     <button class="analyze-btn" id="analyzeBtn" onclick="analyzeVideo()">Analyze game footage</button>
     <div class="status-bar" id="statusBar"></div>
+    <div id="corsWarning" style="display:none;margin-top:12px;background:#fff8e1;border:1px solid #f5c842;border-radius:9px;padding:14px 16px;font-size:13px;line-height:1.7;color:#5a3e00;">
+      <strong>This file needs to run from a web server to work.</strong> Opening it as a local file blocks the AI API.<br><br>
+      Fix: go to <strong>github.com/allisonsbean/KaylaBBallstats</strong>, upload this file renamed to <code>index.html</code>, then Settings &gt; Pages &gt; Branch: main &gt; Save. Live at <strong>allisonsbean.github.io/KaylaBBallstats</strong> in ~60 seconds.
+    </div>
     <div class="results" id="resultsArea" style="display:none;"></div>
   </div>
 
@@ -519,7 +523,20 @@ async function analyzeVideo() {
     gameHistory.unshift(entry);
     if (sheetsReady) { setStatus('Saving to Google Sheets...'); await saveEntryToSheets(entry); }
     setStatus(''); renderResults(entry);
-  } catch(e) { setStatus('Something went wrong — check the console for details.'); console.error(e); }
+  } catch(e) {
+    console.error(e);
+    const msg = e?.message || String(e);
+    if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('CORS')) {
+      setStatus('API blocked — open this file from GitHub Pages, not as a local file. See instructions below.');
+      document.getElementById('corsWarning').style.display = '';
+    } else if (msg.includes('401') || msg.includes('403')) {
+      setStatus('API authentication error — the Anthropic API key in the file may be missing or invalid.');
+    } else if (msg.includes('JSON')) {
+      setStatus('Unexpected response from AI — try a clearer screenshot with good lighting.');
+    } else {
+      setStatus('Error: ' + msg);
+    }
+  }
   btn.disabled = false;
 }
 

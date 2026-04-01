@@ -518,17 +518,32 @@ function startAnalysis() {
   var video = document.getElementById('vid');
   var duration, timestamps;
 
+  setProgTitle('Step 1: verifying key...');
+  setProgress(2, 'Checking API key...');
+
   getKey().then(function() {
-    setProgress(5, 'Loading video...');
+    setProgTitle('Step 2: loading video...');
+    setProgress(5, 'Loading video file into browser...');
     video.src = URL.createObjectURL(videoFile);
     return new Promise(function(resolve, reject) {
-      var timer = setTimeout(function() { reject(new Error('Video took too long to load. Try a shorter clip.')); }, 20000);
-      video.onloadedmetadata = function() { clearTimeout(timer); resolve(); };
-      video.onerror = function() { clearTimeout(timer); reject(new Error('Could not read video. Try MP4 format.')); };
+      var timer = setTimeout(function() {
+        reject(new Error('Video metadata load timed out after 20s. The file may be corrupted or in an unsupported format. Try converting to MP4.'));
+      }, 20000);
+      video.onloadedmetadata = function() {
+        clearTimeout(timer);
+        setProgress(8, 'Video loaded. Duration: ' + fmt(video.duration));
+        resolve();
+      };
+      video.onerror = function(e) {
+        clearTimeout(timer);
+        reject(new Error('Browser could not read the video file. Error code: ' + (video.error ? video.error.code : 'unknown') + '. Try MP4 format.'));
+      };
     });
   }).then(function() {
     duration = video.duration;
-    if (!duration || duration < 1) throw new Error('Video duration could not be read.');
+    setProgTitle('Step 3: building frame list...');
+    setProgress(9, 'Duration: '+fmt(duration)+'. Calculating frame timestamps...');
+    if (!duration || duration < 1) throw new Error('Video duration is ' + duration + ' — too short or unreadable.');
     rs.min = Math.max(1, Math.round(duration/60));
     updateLive();
 
@@ -537,7 +552,7 @@ function startAnalysis() {
     for (var i=0; i<frameCount; i++) {
       timestamps.push(Math.min((i/Math.max(frameCount-1,1))*duration, duration-0.5));
     }
-    setProgress(8, 'Preparing '+frameCount+' frames from '+fmt(duration)+' of footage...');
+    setProgress(10, 'Will analyze '+frameCount+' frames. Building preview grid...');
 
     timestamps.forEach(function(t, i) {
       var div = document.createElement('div');
@@ -664,7 +679,10 @@ function startAnalysis() {
 
   }).catch(function(err) {
     console.error('Analysis failed:', err);
-    showError(err.message || String(err));
+    var msg = err.message || String(err);
+    showError(msg);
+    // Also alert so it's impossible to miss
+    alert('Analysis error: ' + msg);
   }).then(function() {
     document.getElementById('go-btn').disabled = false;
   });

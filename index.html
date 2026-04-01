@@ -137,6 +137,11 @@ canvas{display:none}
   <div id="tab-analyze">
     <div class="info">Upload a quarter video. The tracker extracts frames across the whole clip and builds stats as it goes. Jersey number is required.</div>
     <div class="last-bar" id="last-bar" onclick="fillLast()"></div>
+    <div id="test-row" style="display:flex;gap:8px;margin-bottom:12px;">
+      <button onclick="testScript()" style="flex:1;padding:8px;border:1px solid #e0e0dc;border-radius:8px;background:#fff;font-size:13px;cursor:pointer;">Test Sheets connection</button>
+      <button onclick="testKey()" style="flex:1;padding:8px;border:1px solid #e0e0dc;border-radius:8px;background:#fff;font-size:13px;cursor:pointer;">Test API key</button>
+    </div>
+    <div id="test-result" style="display:none;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;line-height:1.6;"></div>
     <div class="upload-zone" id="drop" onclick="document.getElementById('fi').click()">
       <div style="font-size:28px;margin-bottom:10px">🏀</div>
       <div style="font-size:15px;margin-bottom:4px" id="ul-name">Drop a quarter video or click to upload</div>
@@ -842,6 +847,59 @@ function renderReel() {
           '<span class="pq">'+(p.quarter||'')+'</span></div>';
       }).join('')+'</div>';
   }).join('');
+}
+
+function testScript() {
+  var el = document.getElementById('test-result');
+  el.style.display = '';
+  el.style.background = '#eef3fd';
+  el.style.color = '#1a56a8';
+  el.textContent = 'Testing Sheets connection...';
+  var url = new URL(SCRIPT_URL);
+  url.searchParams.set('action', 'ensureHeaders');
+  fetch(url.toString()).then(function(r) {
+    return r.json();
+  }).then(function(d) {
+    el.style.background = '#f0f9f4';
+    el.style.color = '#14532d';
+    el.textContent = 'Sheets OK: ' + JSON.stringify(d);
+  }).catch(function(e) {
+    el.style.background = '#fef2f2';
+    el.style.color = '#7c2d00';
+    el.textContent = 'Sheets FAILED: ' + e.message;
+  });
+}
+
+function testKey() {
+  var el = document.getElementById('test-result');
+  el.style.display = '';
+  el.style.background = '#eef3fd';
+  el.style.color = '#1a56a8';
+  el.textContent = 'Fetching API key from Apps Script...';
+  var url = new URL(SCRIPT_URL);
+  url.searchParams.set('action', 'getKey');
+  fetch(url.toString()).then(function(r) {
+    return r.json();
+  }).then(function(d) {
+    if (d.key) {
+      el.style.background = '#f0f9f4';
+      el.style.color = '#14532d';
+      el.textContent = 'API key retrieved OK. Starts with: ' + d.key.substring(0,8) + '...';
+      apiKey = d.key;
+    } else if (d.error) {
+      el.style.background = '#fef2f2';
+      el.style.color = '#7c2d00';
+      el.textContent = 'Key fetch returned error: ' + d.error;
+    } else {
+      el.style.background = '#fef2f2';
+      el.style.color = '#7c2d00';
+      el.textContent = 'Unexpected response: ' + JSON.stringify(d);
+    }
+  }).catch(function(e) {
+    el.style.background = '#fef2f2';
+    el.style.color = '#7c2d00';
+    el.textContent = 'Key fetch FAILED: ' + e.message;
+  });
 }
 
 function viewEntry(id) {

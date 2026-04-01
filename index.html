@@ -22,14 +22,15 @@
   .upload-zone:hover { border-color: #aaa; }
   .upload-zone.dragover { border-color: #3b7dd8; }
   input[type=file] { display: none; }
-  .game-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+  .game-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
   .game-meta input, .game-meta select { width: 100%; padding: 8px 12px; border: 1px solid #e0e0dc; border-radius: 8px; background: #fff; color: #1a1a1a; font-size: 14px; }
-  .game-meta input:focus, .game-meta select:focus { outline: none; border-color: #3b7dd8; }
-  .analyze-btn { width: 100%; margin-top: 14px; padding: 12px; border: none; border-radius: 8px; background: #1a1a1a; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .full-select { width: 100%; margin-top: 10px; padding: 8px 12px; border: 1px solid #e0e0dc; border-radius: 8px; background: #fff; color: #1a1a1a; font-size: 14px; }
+  .analyze-btn { width: 100%; margin-top: 14px; padding: 12px; border: none; border-radius: 8px; background: #1a1a1a; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
   .analyze-btn:hover { background: #333; }
   .analyze-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  /* PROGRESS */
+  .last-game-bar { background: #f0f9f4; border: 1px solid #9fe0c0; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #14532d; margin-bottom: 14px; display: none; cursor: pointer; line-height: 1.5; }
+  .last-game-bar:hover { background: #e0f5ea; }
+  .info-box { background: #eef3fd; border: 1px solid #c5d8f8; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #1a56a8; line-height: 1.6; margin-bottom: 16px; }
   .progress-wrap { display: none; margin-top: 16px; background: #fff; border: 1px solid #e8e8e4; border-radius: 10px; padding: 16px; }
   .progress-title { font-size: 13px; font-weight: 600; margin-bottom: 10px; }
   .progress-bar-wrap { height: 6px; background: #eee; border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
@@ -38,17 +39,16 @@
   .frame-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; max-height: 200px; overflow-y: auto; }
   .frame-thumb { border-radius: 5px; overflow: hidden; position: relative; aspect-ratio: 16/9; background: #eee; }
   .frame-thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .frame-thumb .frame-status { position: absolute; bottom: 3px; right: 3px; font-size: 10px; padding: 1px 5px; border-radius: 3px; font-weight: 600; }
-  .frame-thumb .frame-status.done { background: #4caf7d; color: #fff; }
-  .frame-thumb .frame-status.active { background: #f5a623; color: #fff; }
-  .frame-thumb .frame-status.pending { background: rgba(0,0,0,0.4); color: #fff; }
-  .frame-thumb .frame-time { position: absolute; top: 3px; left: 3px; font-size: 10px; background: rgba(0,0,0,0.5); color: #fff; padding: 1px 5px; border-radius: 3px; }
-
-  /* LIVE STATS */
+  .frame-status { position: absolute; bottom: 3px; right: 3px; font-size: 10px; padding: 1px 5px; border-radius: 3px; font-weight: 600; }
+  .frame-status.done { background: #4caf7d; color: #fff; }
+  .frame-status.active { background: #f5a623; color: #fff; }
+  .frame-status.pending { background: rgba(0,0,0,0.4); color: #fff; }
+  .frame-time { position: absolute; top: 3px; left: 3px; font-size: 10px; background: rgba(0,0,0,0.5); color: #fff; padding: 1px 5px; border-radius: 3px; }
   .live-stats { display: none; margin-top: 16px; background: #fff; border: 1px solid #e8e8e4; border-radius: 10px; padding: 16px; }
   .live-stats-title { font-size: 13px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
   .live-badge { font-size: 10px; background: #f5a623; color: #fff; padding: 2px 7px; border-radius: 10px; font-weight: 600; animation: pulse 1.5s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+  .section-label { font-size: 11px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.07em; margin: 14px 0 8px; }
   .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 4px; }
   .stat-grid-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-bottom: 4px; }
   .stat-card { background: #f8f8f6; border: 1px solid #e8e8e4; border-radius: 9px; padding: 10px; }
@@ -57,9 +57,6 @@
   .stat-val.blue { color: #1a56a8; }
   .stat-val.green { color: #1a7a4a; }
   .stat-val.amber { color: #a05a00; }
-  .section-label { font-size: 11px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.07em; margin: 14px 0 8px; }
-
-  /* PLAYS LOG */
   .plays-log { margin-top: 12px; max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 5px; }
   .play-entry { display: flex; align-items: flex-start; gap: 8px; padding: 7px 10px; border-radius: 7px; font-size: 12px; border: 1px solid; }
   .play-entry.highlight-play { border-color: #f5c4a0; background: #fef7f0; }
@@ -71,8 +68,6 @@
   .play-badge.st { background: #c5d8f8; color: #0a2a5a; }
   .play-time { font-size: 10px; color: #999; flex-shrink: 0; }
   .play-desc { color: #1a1a1a; flex: 1; line-height: 1.4; }
-
-  /* RESULTS */
   .results { margin-top: 20px; display: none; }
   .result-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
   .result-player { font-size: 20px; font-weight: 600; }
@@ -101,23 +96,23 @@
   .history-item:hover { border-color: #ccc; }
   .history-top { display: flex; justify-content: space-between; align-items: center; }
   .history-name { font-size: 14px; font-weight: 600; }
+  .history-right { display: flex; align-items: center; gap: 8px; }
   .history-date { font-size: 12px; color: #999; }
+  .history-quarter { font-size: 11px; font-weight: 600; background: #eef3fd; color: #1a56a8; padding: 2px 8px; border-radius: 4px; }
   .history-stats { font-size: 13px; color: #666; margin-top: 5px; }
   .history-flags { display: flex; gap: 6px; margin-top: 7px; flex-wrap: wrap; }
   .flag-pill { font-size: 11px; padding: 2px 9px; border-radius: 4px; font-weight: 500; }
   .flag-pill.hl { background: #f5c4a0; color: #7c2d00; }
   .flag-pill.hu { background: #9fe0c0; color: #0a4a28; }
+  .delete-btn { font-size: 11px; padding: 3px 10px; border-radius: 4px; border: 1px solid #e8e8e4; background: #fff; color: #999; cursor: pointer; flex-shrink: 0; transition: all 0.15s; }
+  .delete-btn:hover { border-color: #e05a4e; color: #e05a4e; background: #fef2f2; }
   .player-filter { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-  .pf-btn { padding: 6px 14px; border: 1px solid #e0e0dc; border-radius: 20px; background: #fff; color: #666; font-size: 13px; cursor: pointer; }
+  .pf-btn { padding: 6px 14px; border: 1px solid #e0e0dc; border-radius: 20px; background: #fff; color: #666; font-size: 13px; cursor: pointer; transition: all 0.15s; }
   .pf-btn.active { border-color: #3b7dd8; color: #1a56a8; background: #eef3fd; }
   .reel-game-label { font-size: 14px; font-weight: 600; margin: 14px 0 3px; }
   .reel-game-sub { font-size: 12px; color: #999; margin-bottom: 8px; }
   .season-summary { font-size: 13px; color: #888; margin-bottom: 14px; }
   canvas { display: none; }
-  .info-box { background: #eef3fd; border: 1px solid #c5d8f8; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #1a56a8; line-height: 1.6; margin-bottom: 16px; }
-  .delete-btn { font-size: 11px; padding: 3px 10px; border-radius: 4px; border: 1px solid #f5c4a0; background: #fef7f0; color: #7c2d00; cursor: pointer; flex-shrink: 0; transition: all 0.15s; }
-  .delete-btn:hover { background: #f5c4a0; }
-  .last-game-bar { background: #f0f9f4; border: 1px solid #9fe0c0; border-radius: 8px; padding: 9px 14px; font-size: 13px; color: #14532d; margin-bottom: 12px; display: none; }
 </style>
 </head>
 <body>
@@ -144,24 +139,28 @@
   <!-- ANALYZE TAB -->
   <div id="tab-analyze">
     <div class="info-box">
-      Upload a quarter video. The tracker will automatically extract frames across the entire clip, watch each one, and build up her stats as it goes. Jersey number helps it find her in the frame.
+      Upload a quarter video. The tracker extracts frames across the whole clip, watches each one, and builds up stats as it goes. Jersey number is required so the AI can find her in the frame.
     </div>
 
     <div class="last-game-bar" id="lastGameBar" onclick="fillLastGame()"></div>
+
     <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
       <div style="font-size:28px;margin-bottom:10px;">🏀</div>
       <div style="font-size:15px;margin-bottom:4px;" id="uploadLabel">Drop a quarter video or click to upload</div>
-      <div style="font-size:13px;color:#999;" id="uploadSub">MP4, MOV — the whole clip will be analyzed automatically</div>
+      <div style="font-size:13px;color:#999;" id="uploadSub">MP4 or MOV — the full clip will be analyzed automatically</div>
     </div>
     <input type="file" id="fileInput" accept="video/*" onchange="handleFile(this)">
 
     <div class="game-meta">
-      <select id="playerSelect"><option value="Kayla">Kayla</option><option value="Kenzie">Kenzie</option></select>
+      <select id="playerSelect">
+        <option value="Kayla">Kayla</option>
+        <option value="Kenzie">Kenzie</option>
+      </select>
       <input type="text" id="opponentInput" placeholder="Opponent (e.g. Liberty HS)">
       <input type="date" id="gameDateInput">
-      <input type="text" id="jerseyInput" placeholder="Jersey # (required — helps AI find her)">
+      <input type="text" id="jerseyInput" placeholder="Jersey # (required)">
     </div>
-    <select id="quarterSelect" style="width:100%;margin-top:10px;padding:8px 12px;border:1px solid #e0e0dc;border-radius:8px;background:#fff;color:#1a1a1a;font-size:14px;">
+    <select id="quarterSelect" class="full-select">
       <option value="Q1">Quarter 1</option>
       <option value="Q2">Quarter 2</option>
       <option value="Q3">Quarter 3</option>
@@ -172,19 +171,15 @@
 
     <button class="analyze-btn" id="analyzeBtn" onclick="startAnalysis()">Watch film and extract stats</button>
 
-    <!-- PROGRESS -->
     <div class="progress-wrap" id="progressWrap">
-      <div class="progress-title" id="progressTitle">Extracting frames...</div>
+      <div class="progress-title" id="progressTitle">Watching film...</div>
       <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
       <div class="progress-status" id="progressStatus">Getting ready...</div>
       <div class="frame-grid" id="frameGrid"></div>
     </div>
 
-    <!-- LIVE STATS -->
     <div class="live-stats" id="liveStats">
-      <div class="live-stats-title">
-        Running totals <span class="live-badge" id="liveBadge">LIVE</span>
-      </div>
+      <div class="live-stats-title">Running totals <span class="live-badge" id="liveBadge">LIVE</span></div>
       <div class="section-label">Scoring</div>
       <div class="stat-grid">
         <div class="stat-card"><div class="stat-label">Points</div><div class="stat-val blue" id="ls-points">0</div></div>
@@ -199,7 +194,7 @@
         <div class="stat-card"><div class="stat-label">Total</div><div class="stat-val" id="ls-reb">0</div></div>
         <div class="stat-card"><div class="stat-label">Assists</div><div class="stat-val" id="ls-ast">0</div></div>
       </div>
-      <div class="section-label">Defense & hustle</div>
+      <div class="section-label">Defense &amp; hustle</div>
       <div class="stat-grid-5">
         <div class="stat-card"><div class="stat-label">Steals</div><div class="stat-val green" id="ls-stl">0</div></div>
         <div class="stat-card"><div class="stat-label">Blocks</div><div class="stat-val green" id="ls-blk">0</div></div>
@@ -252,89 +247,160 @@
 <script>
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVbJFK_q0tJXj2_dfUyIQzcvzLZWxaCWcmlN9v4vMwVfyFzB18vO1pnA-wcsoK_6U4zA/exec';
 const ANTHROPIC_MODEL = 'claude-sonnet-4-20250514';
-const FRAMES_PER_MINUTE = 4; // 4 frames per minute of video = 1 frame every 15 seconds
 
-let uploadedFile = null, gameHistory = [], sheetsReady = false;
-let historyFilter = 'all', seasonPlayer = 'Kayla', reelFilter = 'all';
+let uploadedFile = null;
+let gameHistory = [];
+let sheetsReady = false;
+let historyFilter = 'all';
+let seasonPlayer = 'Kayla';
+let reelFilter = 'all';
+let runningStats = {};
 
-// Running stats accumulator
-let runningStats = { points:0, oreb:0, dreb:0, assists:0, steals:0, blocks:0, turnovers:0, deflections:0, minutesPlayed:0, fgMade:0, fgAttempted:0, threeMade:0, threeAttempted:0, ftMade:0, ftAttempted:0, flaggedPlays:[] };
+function resetRunningStats() {
+  runningStats = { points:0, oreb:0, dreb:0, assists:0, steals:0, blocks:0, turnovers:0, deflections:0, minutesPlayed:0, fgMade:0, fgAttempted:0, threeMade:0, threeAttempted:0, ftMade:0, ftAttempted:0, flaggedPlays:[] };
+}
+resetRunningStats();
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
   updateStatusBadge('connecting');
+  showLastGameBar();
   try {
-    await callScript({ action:'ensureHeaders' });
+    await callScript({ action: 'ensureHeaders' });
     await loadFromSheets();
     updateStatusBadge('connected');
     sheetsReady = true;
-    showLastGameBar();
   } catch(e) {
-    console.error(e);
+    console.error('Init error:', e);
     updateStatusBadge('error');
-    showLastGameBar();
   }
 });
 
-// ── APPS SCRIPT ───────────────────────────────────────────────────────────────
+// ── APPS SCRIPT BRIDGE ────────────────────────────────────────────────────────
 async function callScript(params) {
-  if (params.action==='readAll'||params.action==='ensureHeaders') {
+  if (params.action === 'readAll' || params.action === 'ensureHeaders') {
     const url = new URL(APPS_SCRIPT_URL);
     url.searchParams.set('action', params.action);
     const res = await fetch(url.toString());
-    if (!res.ok) throw new Error('Script error: '+res.status);
+    if (!res.ok) throw new Error('Script GET error: ' + res.status);
     return res.json();
   } else {
-    const res = await fetch(APPS_SCRIPT_URL, { method:'POST', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(params) });
-    if (!res.ok) throw new Error('Script error: '+res.status);
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(params)
+    });
+    if (!res.ok) throw new Error('Script POST error: ' + res.status);
     return res.json();
   }
 }
 
+let _anthropicKey = null;
+
+async function getAnthropicKey() {
+  if (_anthropicKey) return _anthropicKey;
+  const d = await callScript({ action: 'getKey' });
+  if (!d.key) throw new Error('Could not retrieve API key from Apps Script. Make sure ANTHROPIC_API_KEY is set in Script Properties.');
+  _anthropicKey = d.key;
+  return _anthropicKey;
+}
+
 async function callAI(payload) {
-  const d = await callScript({ action:'callAI', payload:JSON.stringify(payload) });
-  if (d.error) throw new Error(d.error);
-  return d;
+  const key = await getAnthropicKey();
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01'
+    },
+    body: JSON.stringify(payload)
+  });
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error('Anthropic API error ' + res.status + ': ' + errText);
+  }
+  return res.json();
 }
 
 async function loadFromSheets() {
-  const data = await callScript({ action:'readAll' });
+  const data = await callScript({ action: 'readAll' });
   const plays = {};
-  (data.plays||[]).forEach(row => {
+  (data.plays || []).forEach(row => {
     const [gameId,,,,type,quarter,description] = row;
-    if (!plays[gameId]) plays[gameId]=[];
-    plays[gameId].push({type,quarter,description});
+    if (!plays[gameId]) plays[gameId] = [];
+    plays[gameId].push({ type, quarter, description });
   });
-  gameHistory = (data.games||[]).map(row => {
+  gameHistory = (data.games || []).map(row => {
     const id = row[0];
-    return { id, player:row[1], opponent:row[2], date:row[3], jersey:row[4], source:row[21],
-      stats:{ points:+row[5]||0, oreb:+row[6]||0, dreb:+row[7]||0, assists:+row[8]||0, steals:+row[9]||0, blocks:+row[10]||0, turnovers:+row[11]||0, deflections:+row[12]||0, minutesPlayed:+row[13]||0, fgMade:+row[14]||0, fgAttempted:+row[15]||0, threeMade:+row[16]||0, threeAttempted:+row[17]||0, ftMade:+row[18]||0, ftAttempted:+row[19]||0, observations:row[20]||'', flaggedPlays:plays[id]||[] },
-      analysis:{ topStrength:row[22]||'', secondStrength:row[23]||'', topImprovement:row[24]||'', secondImprovement:row[25]||'', efficiencySummary:row[26]||'', efficiencyScores:{scoring:+row[27]||0,shooting:+row[28]||0,defense:+row[29]||0,rebounding:+row[30]||0,hustle:+row[31]||0} }
+    return {
+      id, player: row[1], opponent: row[2], date: row[3], jersey: row[4], source: row[21],
+      stats: {
+        points: +row[5]||0, oreb: +row[6]||0, dreb: +row[7]||0, assists: +row[8]||0,
+        steals: +row[9]||0, blocks: +row[10]||0, turnovers: +row[11]||0, deflections: +row[12]||0,
+        minutesPlayed: +row[13]||0, fgMade: +row[14]||0, fgAttempted: +row[15]||0,
+        threeMade: +row[16]||0, threeAttempted: +row[17]||0, ftMade: +row[18]||0, ftAttempted: +row[19]||0,
+        observations: row[20] || '', flaggedPlays: plays[id] || []
+      },
+      analysis: {
+        topStrength: row[22]||'', secondStrength: row[23]||'',
+        topImprovement: row[24]||'', secondImprovement: row[25]||'',
+        efficiencySummary: row[26]||'',
+        efficiencyScores: { scoring: +row[27]||0, shooting: +row[28]||0, defense: +row[29]||0, rebounding: +row[30]||0, hustle: +row[31]||0 }
+      }
     };
   }).reverse();
 }
 
 async function saveEntryToSheets(entry) {
-  const s=entry.stats, a=entry.analysis;
-  const row=[entry.id,entry.player,entry.opponent,entry.date,entry.jersey||'',s.points,s.oreb,s.dreb,s.assists,s.steals,s.blocks,s.turnovers,s.deflections,s.minutesPlayed,s.fgMade,s.fgAttempted,s.threeMade,s.threeAttempted,s.ftMade,s.ftAttempted,s.observations||'',entry.source||'',a.topStrength||'',a.secondStrength||'',a.topImprovement||'',a.secondImprovement||'',a.efficiencySummary||'',a.efficiencyScores.scoring,a.efficiencyScores.shooting,a.efficiencyScores.defense,a.efficiencyScores.rebounding,a.efficiencyScores.hustle];
-  await callScript({ action:'appendGame', row:JSON.stringify(row) });
-  if (s.flaggedPlays&&s.flaggedPlays.length) {
-    const rows=s.flaggedPlays.map(p=>[entry.id,entry.player,entry.opponent,entry.date,p.type,p.quarter||'',p.description||'']);
-    await callScript({ action:'appendPlays', rows:JSON.stringify(rows) });
+  const s = entry.stats, a = entry.analysis;
+  const row = [
+    entry.id, entry.player, entry.opponent, entry.date, entry.jersey||'',
+    s.points, s.oreb, s.dreb, s.assists, s.steals, s.blocks, s.turnovers, s.deflections, s.minutesPlayed,
+    s.fgMade, s.fgAttempted, s.threeMade, s.threeAttempted, s.ftMade, s.ftAttempted,
+    s.observations||'', entry.source||'',
+    a.topStrength||'', a.secondStrength||'', a.topImprovement||'', a.secondImprovement||'', a.efficiencySummary||'',
+    a.efficiencyScores.scoring, a.efficiencyScores.shooting, a.efficiencyScores.defense,
+    a.efficiencyScores.rebounding, a.efficiencyScores.hustle
+  ];
+  await callScript({ action: 'appendGame', row: JSON.stringify(row) });
+  if (s.flaggedPlays && s.flaggedPlays.length) {
+    const rows = s.flaggedPlays.map(p => [entry.id, entry.player, entry.opponent, entry.date, p.type, p.quarter||'', p.description||'']);
+    await callScript({ action: 'appendPlays', rows: JSON.stringify(rows) });
   }
 }
 
 async function deleteEntryFromSheets(id) {
-  await callScript({ action:'deleteGame', id:String(id) });
+  await callScript({ action: 'deleteGame', id: String(id) });
 }
 
-// ── LAST GAME MEMORY ─────────────────────────────────────────────────────────
+function updateStatusBadge(state) {
+  const dot = document.getElementById('statusDot'), txt = document.getElementById('statusText');
+  dot.className = 'status-dot';
+  if (state === 'connected') { dot.classList.add('connected'); txt.textContent = 'Sheets connected'; }
+  else if (state === 'error') { dot.classList.add('error'); txt.textContent = 'Connection error'; }
+  else txt.textContent = 'Connecting...';
+}
+
+// ── LAST GAME MEMORY ──────────────────────────────────────────────────────────
+const QUARTERS = ['Q1','Q2','Q3','Q4','OT','Full'];
+
 function saveLastGameMeta(player, opponent, date, jersey, quarter) {
-  try { localStorage.setItem('lastGameMeta', JSON.stringify({player,opponent,date,jersey,quarter})); } catch(e){}
+  try { localStorage.setItem('bbLastGame', JSON.stringify({ player, opponent, date, jersey, quarter })); } catch(e) {}
 }
 
 function loadLastGameMeta() {
-  try { return JSON.parse(localStorage.getItem('lastGameMeta') || 'null'); } catch(e){ return null; }
+  try { return JSON.parse(localStorage.getItem('bbLastGame') || 'null'); } catch(e) { return null; }
+}
+
+function showLastGameBar() {
+  const meta = loadLastGameMeta();
+  const bar = document.getElementById('lastGameBar');
+  if (!meta || !meta.opponent) { bar.style.display = 'none'; return; }
+  const idx = QUARTERS.indexOf(meta.quarter);
+  const nextQ = QUARTERS[Math.min(idx + 1, QUARTERS.length - 1)];
+  bar.style.display = '';
+  bar.innerHTML = '<strong>Last game:</strong> ' + meta.player + ' vs ' + meta.opponent + ' (' + meta.date + ', ' + meta.quarter + ') &mdash; click to load &amp; advance to <strong>' + nextQ + '</strong>';
 }
 
 function fillLastGame() {
@@ -344,284 +410,210 @@ function fillLastGame() {
   document.getElementById('opponentInput').value = meta.opponent || '';
   document.getElementById('gameDateInput').value = meta.date || '';
   document.getElementById('jerseyInput').value = meta.jersey || '';
-  // Auto-advance quarter
-  const quarters = ['Q1','Q2','Q3','Q4','OT','Full'];
-  const nextIdx = Math.min(quarters.indexOf(meta.quarter)+1, quarters.length-1);
-  document.getElementById('quarterSelect').value = quarters[nextIdx] || meta.quarter;
-}
-
-function showLastGameBar() {
-  const meta = loadLastGameMeta();
-  const bar = document.getElementById('lastGameBar');
-  if (!meta || !meta.opponent) { bar.style.display='none'; return; }
-  const quarters = ['Q1','Q2','Q3','Q4','OT','Full'];
-  const nextIdx = Math.min(quarters.indexOf(meta.quarter)+1, quarters.length-1);
-  const nextQ = quarters[nextIdx] || meta.quarter;
-  bar.style.display = '';
-  bar.textContent = `Last game: ${meta.player} vs ${meta.opponent} (${meta.date}) — click to load and advance to ${nextQ}`;
-}
-
-// ── DELETE ────────────────────────────────────────────────────────────────────
-async function deleteEntry(id, event) {
-  event.stopPropagation();
-  if (!confirm('Delete this game entry? This cannot be undone.')) return;
-  gameHistory = gameHistory.filter(e => e.id != id);
-  if (sheetsReady) {
-    try { await deleteEntryFromSheets(id); } catch(e) { console.error('Delete from sheets failed:', e); }
-  }
-  renderHistory();
-}
-
-function updateStatusBadge(state) {
-  const dot=document.getElementById('statusDot'), txt=document.getElementById('statusText');
-  dot.className='status-dot';
-  if (state==='connected') { dot.classList.add('connected'); txt.textContent='Sheets connected'; }
-  else if (state==='error') { dot.classList.add('error'); txt.textContent='Connection error'; }
-  else txt.textContent='Connecting...';
+  const idx = QUARTERS.indexOf(meta.quarter);
+  document.getElementById('quarterSelect').value = QUARTERS[Math.min(idx + 1, QUARTERS.length - 1)];
 }
 
 // ── TABS ──────────────────────────────────────────────────────────────────────
 function switchTab(tab, el) {
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
-  ['analyze','history','season','reel'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'':'none');
-  if (tab==='history') renderHistory();
-  if (tab==='season') renderSeason();
-  if (tab==='reel') renderReel();
+  ['analyze','history','season','reel'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === tab ? '' : 'none';
+  });
+  if (tab === 'history') renderHistory();
+  if (tab === 'season') renderSeason();
+  if (tab === 'reel') renderReel();
 }
 
 // ── FILE HANDLING ─────────────────────────────────────────────────────────────
 const dropZone = document.getElementById('dropZone');
-dropZone.addEventListener('dragover', e=>{e.preventDefault();dropZone.classList.add('dragover');});
-dropZone.addEventListener('dragleave', ()=>dropZone.classList.remove('dragover'));
-dropZone.addEventListener('drop', e=>{e.preventDefault();dropZone.classList.remove('dragover');if(e.dataTransfer.files[0])setFile(e.dataTransfer.files[0]);});
-function handleFile(i){if(i.files[0])setFile(i.files[0]);}
-function setFile(f){
-  uploadedFile=f;
-  document.getElementById('uploadLabel').textContent=f.name;
-  document.getElementById('uploadSub').textContent=(f.size/1024/1024).toFixed(1)+' MB — ready to analyze';
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('dragover'); if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]); });
+function handleFile(i) { if (i.files[0]) setFile(i.files[0]); }
+function setFile(f) {
+  uploadedFile = f;
+  document.getElementById('uploadLabel').textContent = f.name;
+  document.getElementById('uploadSub').textContent = (f.size / 1024 / 1024).toFixed(1) + ' MB — ready to analyze';
 }
 
 // ── FRAME EXTRACTION ──────────────────────────────────────────────────────────
-function extractFrame(video, timeSeconds) {
+function extractFrame(video, t) {
   return new Promise(resolve => {
-    video.currentTime = timeSeconds;
+    video.currentTime = t;
     video.onseeked = () => {
       const canvas = document.getElementById('frameCanvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+      canvas.width = video.videoWidth || 1280;
+      canvas.height = video.videoHeight || 720;
       canvas.getContext('2d').drawImage(video, 0, 0);
-      const b64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
-      resolve(b64);
+      resolve(canvas.toDataURL('image/jpeg', 0.8).split(',')[1]);
     };
   });
 }
 
 function fmtTime(s) {
-  const m=Math.floor(s/60), sec=Math.floor(s%60);
-  return m+':'+String(sec).padStart(2,'0');
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return m + ':' + String(sec).padStart(2, '0');
 }
 
 // ── MAIN ANALYSIS ─────────────────────────────────────────────────────────────
 async function startAnalysis() {
-  const player = document.getElementById('playerSelect').value;
+  const player   = document.getElementById('playerSelect').value;
   const opponent = document.getElementById('opponentInput').value || 'Unknown opponent';
-  const date = document.getElementById('gameDateInput').value || new Date().toISOString().slice(0,10);
-  const jersey = document.getElementById('jerseyInput').value;
-  const quarter = document.getElementById('quarterSelect').value;
+  const date     = document.getElementById('gameDateInput').value || new Date().toISOString().slice(0, 10);
+  const jersey   = document.getElementById('jerseyInput').value.trim();
+  const quarter  = document.getElementById('quarterSelect').value;
 
   if (!uploadedFile) { alert('Please upload a video first.'); return; }
-  if (!jersey) { alert('Jersey number is required so the AI can find your player in the footage.'); return; }
+  if (!jersey)       { alert('Jersey number is required so the AI can find your player in the footage.'); return; }
 
   const btn = document.getElementById('analyzeBtn');
   btn.disabled = true;
-
-  // Reset running stats
-  runningStats = { points:0, oreb:0, dreb:0, assists:0, steals:0, blocks:0, turnovers:0, deflections:0, minutesPlayed:0, fgMade:0, fgAttempted:0, threeMade:0, threeAttempted:0, ftMade:0, ftAttempted:0, flaggedPlays:[] };
+  resetRunningStats();
   document.getElementById('playsLog').innerHTML = '';
-  updateLiveStats();
-
-  // Show progress and live stats
+  updateLiveDisplay();
   document.getElementById('progressWrap').style.display = '';
   document.getElementById('liveStats').style.display = '';
   document.getElementById('resultsArea').style.display = 'none';
+  document.getElementById('resultsArea').innerHTML = '';
   document.getElementById('frameGrid').innerHTML = '';
+  document.getElementById('liveBadge').textContent = 'LIVE';
+  document.getElementById('liveBadge').style.background = '#f5a623';
+  document.getElementById('liveBadge').style.animation = 'pulse 1.5s infinite';
 
   try {
-    // Load video
     const video = document.getElementById('videoEl');
     video.src = URL.createObjectURL(uploadedFile);
     await new Promise(resolve => { video.onloadedmetadata = resolve; });
     const duration = video.duration;
-    runningStats.minutesPlayed = Math.round(duration / 60);
+    runningStats.minutesPlayed = Math.max(1, Math.round(duration / 60));
+    updateLiveDisplay();
 
-    // Calculate frame timestamps — one frame every 15 seconds
+    // One frame every 15 seconds, minimum 4 frames
     const interval = 15;
     const frameCount = Math.max(4, Math.ceil(duration / interval));
-    const timestamps = [];
-    for (let i = 0; i < frameCount; i++) {
-      timestamps.push(Math.min((i / (frameCount - 1)) * duration, duration - 0.5));
-    }
+    const timestamps = Array.from({ length: frameCount }, (_, i) =>
+      Math.min((i / Math.max(frameCount - 1, 1)) * duration, duration - 0.5)
+    );
 
-    setProgress(0, `Preparing to analyze ${frameCount} frames from ${fmtTime(duration)} of footage...`);
+    setProgress(0, 'Preparing to analyze ' + frameCount + ' frames from ' + fmtTime(duration) + ' of footage...');
 
-    // Build frame thumbnails in UI
+    // Build thumbnail placeholders
     timestamps.forEach((t, i) => {
       const div = document.createElement('div');
       div.className = 'frame-thumb';
-      div.id = `ft-${i}`;
-      div.innerHTML = `<div style="width:100%;height:100%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:11px;color:#999;">${fmtTime(t)}</div><span class="frame-time">${fmtTime(t)}</span><span class="frame-status pending" id="fs-${i}">•</span>`;
+      div.id = 'ft-' + i;
+      div.innerHTML = '<div style="width:100%;height:100%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:11px;color:#999;">' + fmtTime(t) + '</div>' +
+        '<span class="frame-time">' + fmtTime(t) + '</span>' +
+        '<span class="frame-status pending" id="fs-' + i + '">•</span>';
       document.getElementById('frameGrid').appendChild(div);
     });
 
-    // Process each frame
-    let allObservations = [];
+    const allNotes = [];
 
     for (let i = 0; i < timestamps.length; i++) {
       const t = timestamps[i];
-      setProgress(Math.round((i / timestamps.length) * 85), `Analyzing frame ${i+1} of ${timestamps.length} (${fmtTime(t)})...`);
-      document.getElementById(`fs-${i}`).textContent = '...';
-      document.getElementById(`fs-${i}`).className = 'frame-status active';
+      const pct = Math.round((i / timestamps.length) * 85);
+      setProgress(pct, 'Analyzing frame ' + (i + 1) + ' of ' + timestamps.length + ' (' + fmtTime(t) + ')...');
 
-      // Extract frame
+      const fsEl = document.getElementById('fs-' + i);
+      if (fsEl) { fsEl.textContent = '...'; fsEl.className = 'frame-status active'; }
+
       const b64 = await extractFrame(video, t);
 
-      // Update thumbnail
-      const thumb = document.getElementById(`ft-${i}`);
-      thumb.innerHTML = `<img src="data:image/jpeg;base64,${b64}"><span class="frame-time">${fmtTime(t)}</span><span class="frame-status active" id="fs-${i}">...</span>`;
+      const thumb = document.getElementById('ft-' + i);
+      if (thumb) thumb.innerHTML = '<img src="data:image/jpeg;base64,' + b64 + '"><span class="frame-time">' + fmtTime(t) + '</span><span class="frame-status active" id="fs-' + i + '">...</span>';
 
-      // Build context from previous observations
-      const prevContext = allObservations.length > 0
-        ? `\n\nPREVIOUS FRAMES CONTEXT (running totals so far):\nPoints: ${runningStats.points}, Off Reb: ${runningStats.oreb}, Def Reb: ${runningStats.dreb}, Assists: ${runningStats.assists}, Steals: ${runningStats.steals}, Blocks: ${runningStats.blocks}, Turnovers: ${runningStats.turnovers}, Deflections: ${runningStats.deflections}, FG: ${runningStats.fgMade}/${runningStats.fgAttempted}, 3PT: ${runningStats.threeMade}/${runningStats.threeAttempted}, FT: ${runningStats.ftMade}/${runningStats.ftAttempted}\n\nPlays already logged: ${runningStats.flaggedPlays.length}`
+      const prevContext = i > 0
+        ? '\n\nRunning totals so far — Pts:' + runningStats.points + ' OR:' + runningStats.oreb + ' DR:' + runningStats.dreb + ' Ast:' + runningStats.assists + ' Stl:' + runningStats.steals + ' Blk:' + runningStats.blocks + ' TO:' + runningStats.turnovers + ' Defl:' + runningStats.deflections + ' FG:' + runningStats.fgMade + '/' + runningStats.fgAttempted + ' 3PT:' + runningStats.threeMade + '/' + runningStats.threeAttempted + ' FT:' + runningStats.ftMade + '/' + runningStats.ftAttempted
         : '';
 
-      const prompt = `You are analyzing basketball game footage frame by frame to track stats for a specific player.
-
-PLAYER: ${player}, Jersey #${jersey}
-GAME: vs ${opponent}, ${quarter}
-TIMESTAMP: ${fmtTime(t)} into the clip (frame ${i+1} of ${timestamps.length})
-TOTAL CLIP DURATION: ${fmtTime(duration)}${prevContext}
-
-Look carefully at this frame. Find player #${jersey} (${player}).
-
-For THIS FRAME ONLY, identify any of the following that are clearly visible or strongly implied by what you see:
-- Scoring plays (note if it's a 2-pointer, 3-pointer, or free throw)
-- Rebounds (note if offensive or defensive)  
-- Assists, steals, blocks, deflections, turnovers
-- Any hustle plays (diving for ball, taking a charge, boxing out hard)
-- Any highlight-worthy plays
-
-Also look for any visible scoreboard, stats overlay, or game clock that shows accumulated stats.
-
-Return ONLY valid JSON:
-{
-  "playerVisible": true or false,
-  "scoreboardVisible": true or false,
-  "scoreboardStats": null or {"points":0,"oreb":0,"dreb":0,"assists":0,"steals":0,"blocks":0,"turnovers":0,"fgMade":0,"fgAttempted":0,"threeMade":0,"threeAttempted":0,"ftMade":0,"ftAttempted":0},
-  "playsThisFrame": [
-    {"statType": "points2" or "points3" or "ft" or "oreb" or "dreb" or "assist" or "steal" or "block" or "turnover" or "deflection", "count": 1, "description": "brief description"}
-  ],
-  "flaggedPlays": [
-    {"type": "highlight" or "hustle", "description": "specific description of the play"}
-  ],
-  "frameNote": "one sentence about what you see this player doing in this frame"
-}`;
+      const prompt = 'You are analyzing basketball game footage frame by frame to track stats for a specific player.\n\nPLAYER: ' + player + ', Jersey #' + jersey + '\nGAME: vs ' + opponent + ', ' + quarter + '\nTIMESTAMP: ' + fmtTime(t) + ' (frame ' + (i+1) + ' of ' + timestamps.length + ')\nCLIP LENGTH: ' + fmtTime(duration) + prevContext + '\n\nLook carefully at this frame. Find player #' + jersey + ' (' + player + ').\n\nFor THIS FRAME ONLY, identify anything clearly visible:\n- Scoring plays (2-pointer, 3-pointer, free throw)\n- Rebounds (offensive or defensive)\n- Assists, steals, blocks, deflections, turnovers\n- Hustle plays (diving, taking a charge, boxing out)\n- Highlight-worthy plays\n- Any visible scoreboard or stats overlay\n\nReturn ONLY valid JSON:\n{"playerVisible":true,"scoreboardVisible":false,"scoreboardStats":null,"playsThisFrame":[{"statType":"points2|points3|ft|fgMiss|oreb|dreb|assist|steal|block|turnover|deflection","count":1,"description":"brief"}],"flaggedPlays":[{"type":"highlight|hustle","description":"specific"}],"frameNote":"one sentence"}';
 
       try {
         const aiResp = await callAI({
           model: ANTHROPIC_MODEL,
           max_tokens: 800,
-          messages: [{ role:'user', content:[
-            { type:'image', source:{ type:'base64', media_type:'image/jpeg', data:b64 } },
-            { type:'text', text:prompt }
-          ]}]
+          messages: [{
+            role: 'user',
+            content: [
+              { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: b64 } },
+              { type: 'text', text: prompt }
+            ]
+          }]
         });
 
-        const text = aiResp.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
-        const frameData = JSON.parse(text);
+        const raw = aiResp.content.map(b => b.text || '').join('').replace(/```json|```/g, '').trim();
+        const fd = JSON.parse(raw);
 
-        // If scoreboard is visible and has data, use those numbers as ground truth
-        if (frameData.scoreboardVisible && frameData.scoreboardStats) {
-          const sb = frameData.scoreboardStats;
-          // Only update if scoreboard shows higher values (cumulative)
-          if (sb.points > runningStats.points) runningStats.points = sb.points;
-          if (sb.oreb > runningStats.oreb) runningStats.oreb = sb.oreb;
-          if (sb.dreb > runningStats.dreb) runningStats.dreb = sb.dreb;
-          if (sb.assists > runningStats.assists) runningStats.assists = sb.assists;
-          if (sb.steals > runningStats.steals) runningStats.steals = sb.steals;
-          if (sb.blocks > runningStats.blocks) runningStats.blocks = sb.blocks;
-          if (sb.turnovers > runningStats.turnovers) runningStats.turnovers = sb.turnovers;
-          if (sb.fgMade > runningStats.fgMade) runningStats.fgMade = sb.fgMade;
-          if (sb.fgAttempted > runningStats.fgAttempted) runningStats.fgAttempted = sb.fgAttempted;
-          if (sb.threeMade > runningStats.threeMade) runningStats.threeMade = sb.threeMade;
-          if (sb.threeAttempted > runningStats.threeAttempted) runningStats.threeAttempted = sb.threeAttempted;
-          if (sb.ftMade > runningStats.ftMade) runningStats.ftMade = sb.ftMade;
-          if (sb.ftAttempted > runningStats.ftAttempted) runningStats.ftAttempted = sb.ftAttempted;
+        // Use scoreboard if visible and plausible
+        if (fd.scoreboardVisible && fd.scoreboardStats) {
+          const sb = fd.scoreboardStats;
+          const fields = ['points','oreb','dreb','assists','steals','blocks','turnovers','fgMade','fgAttempted','threeMade','threeAttempted','ftMade','ftAttempted'];
+          fields.forEach(k => { if ((sb[k]||0) > runningStats[k]) runningStats[k] = sb[k]; });
         } else {
-          // Accumulate from observed plays
-          (frameData.playsThisFrame||[]).forEach(play => {
+          (fd.playsThisFrame || []).forEach(play => {
             const n = play.count || 1;
-            if (play.statType==='points2') { runningStats.points+=2*n; runningStats.fgMade+=n; runningStats.fgAttempted+=n; }
-            else if (play.statType==='points3') { runningStats.points+=3*n; runningStats.threeMade+=n; runningStats.threeAttempted+=n; runningStats.fgMade+=n; runningStats.fgAttempted+=n; }
-            else if (play.statType==='ft') { runningStats.points+=n; runningStats.ftMade+=n; runningStats.ftAttempted+=n; }
-            else if (play.statType==='fgMiss') { runningStats.fgAttempted+=n; }
-            else if (play.statType==='oreb') runningStats.oreb+=n;
-            else if (play.statType==='dreb') runningStats.dreb+=n;
-            else if (play.statType==='assist') runningStats.assists+=n;
-            else if (play.statType==='steal') runningStats.steals+=n;
-            else if (play.statType==='block') runningStats.blocks+=n;
-            else if (play.statType==='turnover') runningStats.turnovers+=n;
-            else if (play.statType==='deflection') runningStats.deflections+=n;
-
-            // Log to plays feed
-            if (play.description) {
-              addPlayToLog(play.description, 'stat', fmtTime(t));
+            switch (play.statType) {
+              case 'points2':  runningStats.points += 2*n; runningStats.fgMade += n; runningStats.fgAttempted += n; break;
+              case 'points3':  runningStats.points += 3*n; runningStats.threeMade += n; runningStats.threeAttempted += n; runningStats.fgMade += n; runningStats.fgAttempted += n; break;
+              case 'ft':       runningStats.points += n; runningStats.ftMade += n; runningStats.ftAttempted += n; break;
+              case 'fgMiss':   runningStats.fgAttempted += n; break;
+              case 'oreb':     runningStats.oreb += n; break;
+              case 'dreb':     runningStats.dreb += n; break;
+              case 'assist':   runningStats.assists += n; break;
+              case 'steal':    runningStats.steals += n; break;
+              case 'block':    runningStats.blocks += n; break;
+              case 'turnover': runningStats.turnovers += n; break;
+              case 'deflection': runningStats.deflections += n; break;
             }
+            if (play.description) addPlayToLog(play.description, 'stat', fmtTime(t));
           });
         }
 
-        // Add flagged plays
-        (frameData.flaggedPlays||[]).forEach(p => {
-          runningStats.flaggedPlays.push({ type:p.type, quarter, description:p.description });
+        (fd.flaggedPlays || []).forEach(p => {
+          runningStats.flaggedPlays.push({ type: p.type, quarter, description: p.description });
           addPlayToLog(p.description, p.type, fmtTime(t));
         });
 
-        allObservations.push(frameData.frameNote || '');
-        updateLiveStats();
+        if (fd.frameNote) allNotes.push(fd.frameNote);
+        updateLiveDisplay();
 
-        document.getElementById(`fs-${i}`).textContent = '✓';
-        document.getElementById(`fs-${i}`).className = 'frame-status done';
+        const fsEl2 = document.getElementById('fs-' + i);
+        if (fsEl2) { fsEl2.textContent = '✓'; fsEl2.className = 'frame-status done'; }
 
-      } catch(frameErr) {
-        console.error('Frame error:', frameErr);
-        document.getElementById(`fs-${i}`).textContent = '!';
-        document.getElementById(`fs-${i}`).className = 'frame-status pending';
+      } catch (frameErr) {
+        console.error('Frame ' + i + ' error:', frameErr);
+        const fsEl3 = document.getElementById('fs-' + i);
+        if (fsEl3) { fsEl3.textContent = '!'; fsEl3.className = 'frame-status pending'; }
       }
 
-      // Small delay to avoid rate limiting
       await new Promise(r => setTimeout(r, 300));
     }
 
-    // Final analysis pass
     setProgress(90, 'Generating final analysis...');
     document.getElementById('liveBadge').textContent = 'DONE';
     document.getElementById('liveBadge').style.background = '#4caf7d';
     document.getElementById('liveBadge').style.animation = 'none';
 
-    runningStats.minutesPlayed = Math.round(duration / 60);
+    runningStats.minutesPlayed = Math.max(1, Math.round(duration / 60));
     const analysis = await generateAnalysis(player, runningStats, opponent);
 
     setProgress(100, 'Done!');
 
     const entry = {
-      id: Date.now().toString(), player, opponent, date, jersey,
-      stats: { ...runningStats },
+      id: Date.now().toString(),
+      player, opponent, date, jersey,
+      stats: Object.assign({}, runningStats),
       analysis,
       source: uploadedFile.name + ' (' + quarter + ')'
     };
     gameHistory.unshift(entry);
+
     saveLastGameMeta(player, opponent, date, jersey, quarter);
     showLastGameBar();
+
     if (sheetsReady) {
       setProgress(100, 'Saving to Google Sheets...');
       await saveEntryToSheets(entry);
@@ -631,7 +623,7 @@ Return ONLY valid JSON:
     document.getElementById('resultsArea').style.display = '';
 
   } catch(e) {
-    console.error(e);
+    console.error('Analysis error:', e);
     setProgress(0, 'Error: ' + (e.message || String(e)));
   }
 
@@ -641,21 +633,21 @@ Return ONLY valid JSON:
 function addPlayToLog(desc, type, time) {
   const log = document.getElementById('playsLog');
   const div = document.createElement('div');
-  div.className = `play-entry ${type==='highlight'?'highlight-play':type==='hustle'?'hustle-play':'stat-play'}`;
-  const badgeClass = type==='highlight'?'hl':type==='hustle'?'hu':'st';
-  const badgeLabel = type==='highlight'?'Highlight':type==='hustle'?'Hustle':'Play';
-  div.innerHTML = `<span class="play-badge ${badgeClass}">${badgeLabel}</span><span class="play-desc">${desc}</span><span class="play-time">${time}</span>`;
+  div.className = 'play-entry ' + (type === 'highlight' ? 'highlight-play' : type === 'hustle' ? 'hustle-play' : 'stat-play');
+  const badgeClass = type === 'highlight' ? 'hl' : type === 'hustle' ? 'hu' : 'st';
+  const badgeLabel = type === 'highlight' ? 'Highlight' : type === 'hustle' ? 'Hustle' : 'Play';
+  div.innerHTML = '<span class="play-badge ' + badgeClass + '">' + badgeLabel + '</span><span class="play-desc">' + desc + '</span><span class="play-time">' + time + '</span>';
   log.insertBefore(div, log.firstChild);
 }
 
-function updateLiveStats() {
+function updateLiveDisplay() {
   document.getElementById('ls-points').textContent = runningStats.points;
-  document.getElementById('ls-fg').textContent = runningStats.fgMade+'/'+runningStats.fgAttempted;
-  document.getElementById('ls-3pt').textContent = runningStats.threeMade+'/'+runningStats.threeAttempted;
-  document.getElementById('ls-ft').textContent = runningStats.ftMade+'/'+runningStats.ftAttempted;
+  document.getElementById('ls-fg').textContent = runningStats.fgMade + '/' + runningStats.fgAttempted;
+  document.getElementById('ls-3pt').textContent = runningStats.threeMade + '/' + runningStats.threeAttempted;
+  document.getElementById('ls-ft').textContent = runningStats.ftMade + '/' + runningStats.ftAttempted;
   document.getElementById('ls-oreb').textContent = runningStats.oreb;
   document.getElementById('ls-dreb').textContent = runningStats.dreb;
-  document.getElementById('ls-reb').textContent = runningStats.oreb+runningStats.dreb;
+  document.getElementById('ls-reb').textContent = runningStats.oreb + runningStats.dreb;
   document.getElementById('ls-ast').textContent = runningStats.assists;
   document.getElementById('ls-stl').textContent = runningStats.steals;
   document.getElementById('ls-blk').textContent = runningStats.blocks;
@@ -665,108 +657,216 @@ function updateLiveStats() {
 }
 
 function setProgress(pct, msg) {
-  document.getElementById('progressBar').style.width = pct+'%';
+  document.getElementById('progressBar').style.width = pct + '%';
   document.getElementById('progressStatus').textContent = msg;
   document.getElementById('progressTitle').textContent = pct < 100 ? 'Watching film...' : 'Analysis complete';
 }
 
 async function generateAnalysis(player, stats, opponent) {
-  const mins=stats.minutesPlayed||1, totalReb=(stats.oreb||0)+(stats.dreb||0);
-  const fgPct=stats.fgAttempted?Math.round(stats.fgMade/stats.fgAttempted*100):0;
-  const hl=(stats.flaggedPlays||[]).filter(p=>p.type==='highlight').length;
-  const hu=(stats.flaggedPlays||[]).filter(p=>p.type==='hustle').length;
-  const prompt=`Basketball analyst. Stats for ${player} vs ${opponent}: Pts:${stats.points} OR:${stats.oreb} DR:${stats.dreb} Reb:${totalReb} Ast:${stats.assists} Stl:${stats.steals} Blk:${stats.blocks} TO:${stats.turnovers} Defl:${stats.deflections} Min:${mins} FG:${stats.fgMade}/${stats.fgAttempted}(${fgPct}%) Highlights:${hl} Hustle:${hu}\nReturn ONLY JSON: {"topStrength":"","secondStrength":"","topImprovement":"","secondImprovement":"","efficiencySummary":"","efficiencyScores":{"scoring":0,"shooting":0,"defense":0,"rebounding":0,"hustle":0}}`;
-  const d = await callAI({ model:ANTHROPIC_MODEL, max_tokens:600, messages:[{role:'user',content:prompt}] });
-  return JSON.parse(d.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim());
+  const mins = stats.minutesPlayed || 1, totalReb = (stats.oreb||0) + (stats.dreb||0);
+  const fgPct = stats.fgAttempted ? Math.round(stats.fgMade / stats.fgAttempted * 100) : 0;
+  const hl = (stats.flaggedPlays||[]).filter(p => p.type === 'highlight').length;
+  const hu = (stats.flaggedPlays||[]).filter(p => p.type === 'hustle').length;
+  const prompt = 'Basketball analyst. Stats for ' + player + ' vs ' + opponent + ': Pts:' + stats.points + ' OR:' + stats.oreb + ' DR:' + stats.dreb + ' Reb:' + totalReb + ' Ast:' + stats.assists + ' Stl:' + stats.steals + ' Blk:' + stats.blocks + ' TO:' + stats.turnovers + ' Defl:' + stats.deflections + ' Min:' + mins + ' FG:' + stats.fgMade + '/' + stats.fgAttempted + '(' + fgPct + '%) Highlights:' + hl + ' Hustle:' + hu + '\nReturn ONLY JSON: {"topStrength":"","secondStrength":"","topImprovement":"","secondImprovement":"","efficiencySummary":"","efficiencyScores":{"scoring":0,"shooting":0,"defense":0,"rebounding":0,"hustle":0}}';
+  const d = await callAI({ model: ANTHROPIC_MODEL, max_tokens: 600, messages: [{ role: 'user', content: prompt }] });
+  return JSON.parse(d.content.map(b => b.text || '').join('').replace(/```json|```/g, '').trim());
 }
 
-function pct(m,a){if(!a)return'—';return Math.round(m/a*100)+'%';}
-function per36(v,m){if(!m)return'—';return(v/m*36).toFixed(1);}
-function r1(v){return Math.round(v*10)/10;}
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function pct(m, a) { if (!a) return '—'; return Math.round(m / a * 100) + '%'; }
+function per36(v, m) { if (!m) return '—'; return (v / m * 36).toFixed(1); }
+function r1(v) { return Math.round(v * 10) / 10; }
 
+// ── RENDER RESULTS ────────────────────────────────────────────────────────────
 function renderFinalResults(entry) {
-  const s=entry.stats, a=entry.analysis, mins=s.minutesPlayed||1, totalReb=(s.oreb||0)+(s.dreb||0);
-  const plays=s.flaggedPlays||[];
-  const playsHTML=plays.length?`<div class="section-label">Flagged plays</div><div class="play-list">${plays.map(p=>`<div class="play-item ${p.type==='highlight'?'highlight-play':'hustle-play'}"><span class="play-badge2 ${p.type==='highlight'?'hl':'hu'}">${p.type==='highlight'?'Highlight':'Hustle'}</span><span class="play-desc2">${p.description}</span><span class="play-quarter">${p.quarter||''}</span></div>`).join('')}</div>`:'';
-  const effHTML=a?`<div class="section-label">Efficiency</div><div class="eff-wrap">${[['Scoring',a.efficiencyScores.scoring,'#3b7dd8'],['Shooting',a.efficiencyScores.shooting,'#1a7a4a'],['Defense',a.efficiencyScores.defense,'#c0392b'],['Rebounding',a.efficiencyScores.rebounding,'#6c3eb8'],['Hustle',a.efficiencyScores.hustle,'#c87d00']].map(([l,v,c])=>`<div class="efficiency-row"><div class="eff-label">${l}</div><div class="eff-bar-wrap"><div class="eff-bar" style="width:${v}%;background:${c};"></div></div><div class="eff-val">${v}</div></div>`).join('')}<div style="font-size:13px;color:#888;margin-top:10px;line-height:1.6;">${a.efficiencySummary}</div></div><div class="section-label">Strengths</div><div class="analysis-block strength">${a.topStrength}<br><br>${a.secondStrength}</div><div class="section-label">Areas to improve</div><div class="analysis-block improve">${a.topImprovement}<br><br>${a.secondImprovement}</div>`:'';
-  document.getElementById('resultsArea').innerHTML=`
-    <div class="result-header" style="margin-top:20px;"><div class="result-player">${entry.player} — Final</div><div class="result-game">vs ${entry.opponent} · ${entry.date}</div></div>
-    <div class="section-label">Scoring</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">Points</div><div class="stat-val blue">${s.points}</div></div><div class="stat-card"><div class="stat-label">FG%</div><div class="stat-val">${pct(s.fgMade,s.fgAttempted)}</div></div><div class="stat-card"><div class="stat-label">3PT%</div><div class="stat-val">${pct(s.threeMade,s.threeAttempted)}</div></div><div class="stat-card"><div class="stat-label">FT%</div><div class="stat-val">${pct(s.ftMade,s.ftAttempted)}</div></div></div>
-    <div class="section-label">Rebounds</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">Off reb</div><div class="stat-val green">${s.oreb}</div></div><div class="stat-card"><div class="stat-label">Def reb</div><div class="stat-val green">${s.dreb}</div></div><div class="stat-card"><div class="stat-label">Total</div><div class="stat-val">${totalReb}</div></div><div class="stat-card"><div class="stat-label">Assists</div><div class="stat-val">${s.assists}</div></div></div>
-    <div class="section-label">Defense & hustle</div><div class="stat-grid-5"><div class="stat-card"><div class="stat-label">Steals</div><div class="stat-val green">${s.steals}</div></div><div class="stat-card"><div class="stat-label">Blocks</div><div class="stat-val green">${s.blocks}</div></div><div class="stat-card"><div class="stat-label">Deflections</div><div class="stat-val green">${s.deflections}</div></div><div class="stat-card"><div class="stat-label">Turnovers</div><div class="stat-val amber">${s.turnovers}</div></div><div class="stat-card"><div class="stat-label">Minutes</div><div class="stat-val blue">${s.minutesPlayed}</div></div></div>
-    <div class="section-label">Per 36 minutes</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">Points</div><div class="stat-val">${per36(s.points,mins)}</div></div><div class="stat-card"><div class="stat-label">Rebounds</div><div class="stat-val">${per36(totalReb,mins)}</div></div><div class="stat-card"><div class="stat-label">Assists</div><div class="stat-val">${per36(s.assists,mins)}</div></div><div class="stat-card"><div class="stat-label">Def plays</div><div class="stat-val">${per36((s.steals||0)+(s.blocks||0)+(s.deflections||0),mins)}</div></div></div>
-    ${playsHTML}${effHTML}`;
+  const s = entry.stats, a = entry.analysis;
+  const mins = s.minutesPlayed || 1, totalReb = (s.oreb||0) + (s.dreb||0);
+  const plays = s.flaggedPlays || [];
+  const playsHTML = plays.length ? '<div class="section-label">Flagged plays</div><div class="play-list">' +
+    plays.map(p => '<div class="play-item ' + (p.type==='highlight'?'highlight-play':'hustle-play') + '"><span class="play-badge2 ' + (p.type==='highlight'?'hl':'hu') + '">' + (p.type==='highlight'?'Highlight':'Hustle') + '</span><span class="play-desc2">' + p.description + '</span><span class="play-quarter">' + (p.quarter||'') + '</span></div>').join('') + '</div>' : '';
+  const effHTML = a ? '<div class="section-label">Efficiency</div><div class="eff-wrap">' +
+    [['Scoring',a.efficiencyScores.scoring,'#3b7dd8'],['Shooting',a.efficiencyScores.shooting,'#1a7a4a'],['Defense',a.efficiencyScores.defense,'#c0392b'],['Rebounding',a.efficiencyScores.rebounding,'#6c3eb8'],['Hustle',a.efficiencyScores.hustle,'#c87d00']].map(([l,v,c]) => '<div class="efficiency-row"><div class="eff-label">' + l + '</div><div class="eff-bar-wrap"><div class="eff-bar" style="width:' + v + '%;background:' + c + ';"></div></div><div class="eff-val">' + v + '</div></div>').join('') +
+    '<div style="font-size:13px;color:#888;margin-top:10px;line-height:1.6;">' + a.efficiencySummary + '</div></div>' +
+    '<div class="section-label">Strengths</div><div class="analysis-block strength">' + a.topStrength + '<br><br>' + a.secondStrength + '</div>' +
+    '<div class="section-label">Areas to improve</div><div class="analysis-block improve">' + a.topImprovement + '<br><br>' + a.secondImprovement + '</div>' : '';
+
+  document.getElementById('resultsArea').innerHTML =
+    '<div class="result-header" style="margin-top:20px;"><div class="result-player">' + entry.player + '</div><div class="result-game">vs ' + entry.opponent + ' &middot; ' + entry.date + ' &middot; ' + (entry.source||'').split('(')[1]?.replace(')','').trim() + '</div></div>' +
+    '<div class="section-label">Scoring</div><div class="stat-grid">' +
+      '<div class="stat-card"><div class="stat-label">Points</div><div class="stat-val blue">' + s.points + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">FG%</div><div class="stat-val">' + pct(s.fgMade,s.fgAttempted) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">3PT%</div><div class="stat-val">' + pct(s.threeMade,s.threeAttempted) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">FT%</div><div class="stat-val">' + pct(s.ftMade,s.ftAttempted) + '</div></div></div>' +
+    '<div class="section-label">Rebounds</div><div class="stat-grid">' +
+      '<div class="stat-card"><div class="stat-label">Off reb</div><div class="stat-val green">' + s.oreb + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Def reb</div><div class="stat-val green">' + s.dreb + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Total</div><div class="stat-val">' + totalReb + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Assists</div><div class="stat-val">' + s.assists + '</div></div></div>' +
+    '<div class="section-label">Defense &amp; hustle</div><div class="stat-grid-5">' +
+      '<div class="stat-card"><div class="stat-label">Steals</div><div class="stat-val green">' + s.steals + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Blocks</div><div class="stat-val green">' + s.blocks + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Deflections</div><div class="stat-val green">' + s.deflections + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Turnovers</div><div class="stat-val amber">' + s.turnovers + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Minutes</div><div class="stat-val blue">' + s.minutesPlayed + '</div></div></div>' +
+    '<div class="section-label">Per 36 minutes</div><div class="stat-grid">' +
+      '<div class="stat-card"><div class="stat-label">Points</div><div class="stat-val">' + per36(s.points,mins) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Rebounds</div><div class="stat-val">' + per36(totalReb,mins) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Assists</div><div class="stat-val">' + per36(s.assists,mins) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Def plays</div><div class="stat-val">' + per36((s.steals||0)+(s.blocks||0)+(s.deflections||0),mins) + '</div></div></div>' +
+    playsHTML + effHTML;
 }
 
 // ── HISTORY ───────────────────────────────────────────────────────────────────
-function setHistoryFilter(f,el){historyFilter=f;document.querySelectorAll('#tab-history .pf-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderHistory();}
+function setHistoryFilter(f, el) {
+  historyFilter = f;
+  document.querySelectorAll('#tab-history .pf-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderHistory();
+}
+
 function renderHistory() {
-  const list=document.getElementById('historyList');
-  const filtered=historyFilter==='all'?gameHistory:gameHistory.filter(e=>e.player===historyFilter);
-  if(!filtered.length){list.innerHTML='<div class="history-empty">No games logged yet.</div>';return;}
-  list.innerHTML=filtered.map(entry=>{
-    const s=entry.stats,totalReb=(s.oreb||0)+(s.dreb||0),plays=s.flaggedPlays||[];
-    const hlCount=plays.filter(p=>p.type==='highlight').length,huCount=plays.filter(p=>p.type==='hustle').length;
-    const flagHTML=(hlCount||huCount)?`<div class="history-flags">${hlCount?`<span class="flag-pill hl">${hlCount} highlight${hlCount!==1?'s':''}</span>`:''} ${huCount?`<span class="flag-pill hu">${huCount} hustle play${huCount!==1?'s':''}</span>`:''}</div>`:'';
-    return `<div class="history-item" onclick="viewEntry('${entry.id}')"><div class="history-top"><div class="history-name">${entry.player} vs ${entry.opponent}</div><div style="display:flex;align-items:center;gap:6px;"><div class="history-date">${entry.date}${entry.source?(' · '+entry.source.split('(')[1]?.replace(')','').trim()||''):''}  </div><button class="delete-btn" onclick="deleteEntry('${entry.id}',event)">Delete</button></div></div><div class="history-stats">${s.points} pts · ${s.oreb} or/${s.dreb} dr · ${s.assists} ast · ${s.steals} stl · ${s.blocks} blk · ${s.deflections} defl · ${s.minutesPlayed} min</div>${flagHTML}</div>`;
+  const list = document.getElementById('historyList');
+  const filtered = historyFilter === 'all' ? gameHistory : gameHistory.filter(e => e.player === historyFilter);
+  if (!filtered.length) { list.innerHTML = '<div class="history-empty">No games logged yet.</div>'; return; }
+  list.innerHTML = filtered.map(entry => {
+    const s = entry.stats, totalReb = (s.oreb||0) + (s.dreb||0);
+    const plays = s.flaggedPlays || [];
+    const hlCount = plays.filter(p => p.type === 'highlight').length;
+    const huCount = plays.filter(p => p.type === 'hustle').length;
+    const quarter = (entry.source || '').match(/\(([^)]+)\)/)?.[1] || '';
+    const flagHTML = (hlCount || huCount) ? '<div class="history-flags">' +
+      (hlCount ? '<span class="flag-pill hl">' + hlCount + ' highlight' + (hlCount !== 1 ? 's' : '') + '</span>' : '') +
+      (huCount ? '<span class="flag-pill hu">' + huCount + ' hustle play' + (huCount !== 1 ? 's' : '') + '</span>' : '') +
+      '</div>' : '';
+    return '<div class="history-item" onclick="viewEntry(\'' + entry.id + '\')">' +
+      '<div class="history-top">' +
+        '<div class="history-name">' + entry.player + ' vs ' + entry.opponent + '</div>' +
+        '<div class="history-right">' +
+          (quarter ? '<span class="history-quarter">' + quarter + '</span>' : '') +
+          '<span class="history-date">' + entry.date + '</span>' +
+          '<button class="delete-btn" onclick="deleteEntry(\'' + entry.id + '\',event)">Delete</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="history-stats">' + s.points + ' pts &middot; ' + s.oreb + ' or/' + s.dreb + ' dr &middot; ' + s.assists + ' ast &middot; ' + s.steals + ' stl &middot; ' + s.blocks + ' blk &middot; ' + s.deflections + ' defl &middot; ' + s.minutesPlayed + ' min</div>' +
+      flagHTML + '</div>';
   }).join('');
 }
 
+async function deleteEntry(id, event) {
+  event.stopPropagation();
+  if (!confirm('Delete this entry? This cannot be undone.')) return;
+  gameHistory = gameHistory.filter(e => e.id != id);
+  if (sheetsReady) {
+    try { await deleteEntryFromSheets(id); } catch(e) { console.error('Delete sheets error:', e); }
+  }
+  renderHistory();
+}
+
 // ── SEASON ────────────────────────────────────────────────────────────────────
-function setSeasonPlayer(p,el){seasonPlayer=p;document.querySelectorAll('#tab-season .pf-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderSeason();}
+function setSeasonPlayer(p, el) {
+  seasonPlayer = p;
+  document.querySelectorAll('#tab-season .pf-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderSeason();
+}
+
 function renderSeason() {
-  const content=document.getElementById('seasonContent');
-  const games=gameHistory.filter(e=>e.player===seasonPlayer);
-  if(!games.length){content.innerHTML='<div class="history-empty">No games logged for '+seasonPlayer+' yet.</div>';return;}
-  const avg=k=>games.map(g=>g.stats[k]||0).reduce((a,b)=>a+b,0)/games.length;
-  const sum=(arr,fn)=>arr.reduce((a,g)=>a+fn(g),0);
-  const tFGM=sum(games,g=>g.stats.fgMade||0),tFGA=sum(games,g=>g.stats.fgAttempted||0);
-  const t3M=sum(games,g=>g.stats.threeMade||0),t3A=sum(games,g=>g.stats.threeAttempted||0);
-  const tFTM=sum(games,g=>g.stats.ftMade||0),tFTA=sum(games,g=>g.stats.ftAttempted||0);
-  const avgPts=avg('points'),avgOR=avg('oreb'),avgDR=avg('dreb'),avgAst=avg('assists');
-  const avgStl=avg('steals'),avgBlk=avg('blocks'),avgDefl=avg('deflections'),avgTO=avg('turnovers'),avgMin=avg('minutesPlayed');
-  const avgReb=avgOR+avgDR;
-  const totalHL=sum(games,g=>(g.stats.flaggedPlays||[]).filter(p=>p.type==='highlight').length);
-  const totalHU=sum(games,g=>(g.stats.flaggedPlays||[]).filter(p=>p.type==='hustle').length);
-  const bestScoring=games.reduce((a,b)=>b.stats.points>a.stats.points?b:a);
-  const bestDef=games.reduce((a,b)=>((b.stats.steals||0)+(b.stats.blocks||0)+(b.stats.deflections||0))>((a.stats.steals||0)+(a.stats.blocks||0)+(a.stats.deflections||0))?b:a);
-  const bestReb=games.reduce((a,b)=>((b.stats.oreb||0)+(b.stats.dreb||0))>((a.stats.oreb||0)+(a.stats.dreb||0))?b:a);
-  content.innerHTML=`<div class="season-summary">${games.length} game${games.length!==1?'s':''} logged · ${totalHL} highlights · ${totalHU} hustle plays</div>
-    <div class="section-label">Scoring averages</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">Pts/game</div><div class="stat-val blue">${r1(avgPts)}</div></div><div class="stat-card"><div class="stat-label">Ast/game</div><div class="stat-val">${r1(avgAst)}</div></div><div class="stat-card"><div class="stat-label">Min/game</div><div class="stat-val">${r1(avgMin)}</div></div><div class="stat-card"><div class="stat-label">Pts/36</div><div class="stat-val">${avgMin?r1(avgPts/avgMin*36):'—'}</div></div></div>
-    <div class="section-label">Rebound averages</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">Off reb</div><div class="stat-val green">${r1(avgOR)}</div></div><div class="stat-card"><div class="stat-label">Def reb</div><div class="stat-val green">${r1(avgDR)}</div></div><div class="stat-card"><div class="stat-label">Total</div><div class="stat-val">${r1(avgReb)}</div></div><div class="stat-card"><div class="stat-label">Reb/36</div><div class="stat-val">${avgMin?r1(avgReb/avgMin*36):'—'}</div></div></div>
-    <div class="section-label">Defense averages</div><div class="stat-grid-5"><div class="stat-card"><div class="stat-label">Steals</div><div class="stat-val green">${r1(avgStl)}</div></div><div class="stat-card"><div class="stat-label">Blocks</div><div class="stat-val green">${r1(avgBlk)}</div></div><div class="stat-card"><div class="stat-label">Deflections</div><div class="stat-val green">${r1(avgDefl)}</div></div><div class="stat-card"><div class="stat-label">Turnovers</div><div class="stat-val amber">${r1(avgTO)}</div></div><div class="stat-card"><div class="stat-label">FG%</div><div class="stat-val">${pct(tFGM,tFGA)}</div></div></div>
-    <div class="section-label">Shooting splits</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">FG%</div><div class="stat-val">${pct(tFGM,tFGA)}</div></div><div class="stat-card"><div class="stat-label">3PT%</div><div class="stat-val">${pct(t3M,t3A)}</div></div><div class="stat-card"><div class="stat-label">FT%</div><div class="stat-val">${pct(tFTM,tFTA)}</div></div><div class="stat-card"><div class="stat-label">3PT made</div><div class="stat-val">${t3M}/${t3A}</div></div></div>
-    <div class="section-label">Standout games</div>
-    <div class="history-item" onclick="viewEntry('${bestScoring.id}')"><div class="history-top"><div class="history-name">Best scoring — vs ${bestScoring.opponent}</div><div class="history-date">${bestScoring.date}</div></div><div class="history-stats">${bestScoring.stats.points} pts · ${pct(bestScoring.stats.fgMade,bestScoring.stats.fgAttempted)} FG%</div></div>
-    <div class="history-item" onclick="viewEntry('${bestDef.id}')"><div class="history-top"><div class="history-name">Best defense — vs ${bestDef.opponent}</div><div class="history-date">${bestDef.date}</div></div><div class="history-stats">${bestDef.stats.steals} stl · ${bestDef.stats.blocks} blk · ${bestDef.stats.deflections} defl</div></div>
-    <div class="history-item" onclick="viewEntry('${bestReb.id}')"><div class="history-top"><div class="history-name">Best rebounding — vs ${bestReb.opponent}</div><div class="history-date">${bestReb.date}</div></div><div class="history-stats">${bestReb.stats.oreb} or/${bestReb.stats.dreb} dr · ${(bestReb.stats.oreb||0)+(bestReb.stats.dreb||0)} total</div></div>`;
+  const content = document.getElementById('seasonContent');
+  const games = gameHistory.filter(e => e.player === seasonPlayer);
+  if (!games.length) { content.innerHTML = '<div class="history-empty">No games logged for ' + seasonPlayer + ' yet.</div>'; return; }
+  const avg = k => games.map(g => g.stats[k]||0).reduce((a,b) => a+b, 0) / games.length;
+  const sum = (arr, fn) => arr.reduce((a, g) => a + fn(g), 0);
+  const tFGM = sum(games,g=>g.stats.fgMade||0), tFGA = sum(games,g=>g.stats.fgAttempted||0);
+  const t3M  = sum(games,g=>g.stats.threeMade||0), t3A = sum(games,g=>g.stats.threeAttempted||0);
+  const tFTM = sum(games,g=>g.stats.ftMade||0), tFTA = sum(games,g=>g.stats.ftAttempted||0);
+  const avgPts=avg('points'), avgOR=avg('oreb'), avgDR=avg('dreb'), avgAst=avg('assists');
+  const avgStl=avg('steals'), avgBlk=avg('blocks'), avgDefl=avg('deflections'), avgTO=avg('turnovers'), avgMin=avg('minutesPlayed');
+  const avgReb = avgOR + avgDR;
+  const totalHL = sum(games, g => (g.stats.flaggedPlays||[]).filter(p=>p.type==='highlight').length);
+  const totalHU = sum(games, g => (g.stats.flaggedPlays||[]).filter(p=>p.type==='hustle').length);
+  const bestScoring = games.reduce((a,b) => b.stats.points > a.stats.points ? b : a);
+  const bestDef = games.reduce((a,b) => ((b.stats.steals||0)+(b.stats.blocks||0)+(b.stats.deflections||0)) > ((a.stats.steals||0)+(a.stats.blocks||0)+(a.stats.deflections||0)) ? b : a);
+  const bestReb = games.reduce((a,b) => ((b.stats.oreb||0)+(b.stats.dreb||0)) > ((a.stats.oreb||0)+(a.stats.dreb||0)) ? b : a);
+  content.innerHTML =
+    '<div class="season-summary">' + games.length + ' game' + (games.length!==1?'s':'') + ' logged &middot; ' + totalHL + ' highlights &middot; ' + totalHU + ' hustle plays</div>' +
+    '<div class="section-label">Scoring averages</div><div class="stat-grid">' +
+      '<div class="stat-card"><div class="stat-label">Pts/game</div><div class="stat-val blue">' + r1(avgPts) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Ast/game</div><div class="stat-val">' + r1(avgAst) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Min/game</div><div class="stat-val">' + r1(avgMin) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Pts/36</div><div class="stat-val">' + (avgMin?r1(avgPts/avgMin*36):'—') + '</div></div></div>' +
+    '<div class="section-label">Rebound averages</div><div class="stat-grid">' +
+      '<div class="stat-card"><div class="stat-label">Off reb</div><div class="stat-val green">' + r1(avgOR) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Def reb</div><div class="stat-val green">' + r1(avgDR) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Total</div><div class="stat-val">' + r1(avgReb) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Reb/36</div><div class="stat-val">' + (avgMin?r1(avgReb/avgMin*36):'—') + '</div></div></div>' +
+    '<div class="section-label">Defense averages</div><div class="stat-grid-5">' +
+      '<div class="stat-card"><div class="stat-label">Steals</div><div class="stat-val green">' + r1(avgStl) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Blocks</div><div class="stat-val green">' + r1(avgBlk) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Deflections</div><div class="stat-val green">' + r1(avgDefl) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">Turnovers</div><div class="stat-val amber">' + r1(avgTO) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">FG%</div><div class="stat-val">' + pct(tFGM,tFGA) + '</div></div></div>' +
+    '<div class="section-label">Shooting splits</div><div class="stat-grid">' +
+      '<div class="stat-card"><div class="stat-label">FG%</div><div class="stat-val">' + pct(tFGM,tFGA) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">3PT%</div><div class="stat-val">' + pct(t3M,t3A) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">FT%</div><div class="stat-val">' + pct(tFTM,tFTA) + '</div></div>' +
+      '<div class="stat-card"><div class="stat-label">3PT made</div><div class="stat-val">' + t3M + '/' + t3A + '</div></div></div>' +
+    '<div class="section-label">Standout games</div>' +
+    '<div class="history-item" onclick="viewEntry(\'' + bestScoring.id + '\')">' +
+      '<div class="history-top"><div class="history-name">Best scoring &mdash; vs ' + bestScoring.opponent + '</div><div class="history-date">' + bestScoring.date + '</div></div>' +
+      '<div class="history-stats">' + bestScoring.stats.points + ' pts &middot; ' + pct(bestScoring.stats.fgMade,bestScoring.stats.fgAttempted) + ' FG%</div></div>' +
+    '<div class="history-item" onclick="viewEntry(\'' + bestDef.id + '\')">' +
+      '<div class="history-top"><div class="history-name">Best defense &mdash; vs ' + bestDef.opponent + '</div><div class="history-date">' + bestDef.date + '</div></div>' +
+      '<div class="history-stats">' + bestDef.stats.steals + ' stl &middot; ' + bestDef.stats.blocks + ' blk &middot; ' + bestDef.stats.deflections + ' defl</div></div>' +
+    '<div class="history-item" onclick="viewEntry(\'' + bestReb.id + '\')">' +
+      '<div class="history-top"><div class="history-name">Best rebounding &mdash; vs ' + bestReb.opponent + '</div><div class="history-date">' + bestReb.date + '</div></div>' +
+      '<div class="history-stats">' + bestReb.stats.oreb + ' or/' + bestReb.stats.dreb + ' dr &middot; ' + ((bestReb.stats.oreb||0)+(bestReb.stats.dreb||0)) + ' total</div></div>';
 }
 
 // ── REEL ──────────────────────────────────────────────────────────────────────
-function setReelFilter(f,el){reelFilter=f;document.querySelectorAll('#tab-reel .pf-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderReel();}
-function renderReel() {
-  const content=document.getElementById('reelContent');
-  let games=gameHistory;
-  if(reelFilter==='Kayla'||reelFilter==='Kenzie') games=games.filter(g=>g.player===reelFilter);
-  const allPlays=[];
-  games.forEach(g=>(g.stats.flaggedPlays||[]).forEach(p=>{
-    if(reelFilter==='highlight'&&p.type!=='highlight') return;
-    if(reelFilter==='hustle'&&p.type!=='hustle') return;
-    allPlays.push({...p,player:g.player,opponent:g.opponent,date:g.date,gameId:g.id});
-  }));
-  if(!allPlays.length){content.innerHTML='<div class="history-empty">No flagged plays yet.</div>';return;}
-  const byGame={};
-  allPlays.forEach(p=>{const k=p.gameId;if(!byGame[k])byGame[k]={player:p.player,opponent:p.opponent,date:p.date,plays:[]};byGame[k].plays.push(p);});
-  content.innerHTML=Object.values(byGame).map(g=>`<div class="reel-game-label">${g.player} vs ${g.opponent}</div><div class="reel-game-sub">${g.date} · ${g.plays.length} play${g.plays.length!==1?'s':''}</div><div class="play-list" style="margin-bottom:16px;">${g.plays.map(p=>`<div class="play-item ${p.type==='highlight'?'highlight-play':'hustle-play'}"><span class="play-badge2 ${p.type==='highlight'?'hl':'hu'}">${p.type==='highlight'?'Highlight':'Hustle'}</span><span class="play-desc2">${p.description}</span><span class="play-quarter">${p.quarter||''}</span></div>`).join('')}</div>`).join('');
+function setReelFilter(f, el) {
+  reelFilter = f;
+  document.querySelectorAll('#tab-reel .pf-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderReel();
 }
 
-function viewEntry(id){
-  const entry=gameHistory.find(e=>e.id==id);if(!entry)return;
-  switchTab('analyze',document.querySelectorAll('.tab')[0]);
+function renderReel() {
+  const content = document.getElementById('reelContent');
+  let games = gameHistory;
+  if (reelFilter === 'Kayla' || reelFilter === 'Kenzie') games = games.filter(g => g.player === reelFilter);
+  const allPlays = [];
+  games.forEach(g => (g.stats.flaggedPlays||[]).forEach(p => {
+    if (reelFilter === 'highlight' && p.type !== 'highlight') return;
+    if (reelFilter === 'hustle' && p.type !== 'hustle') return;
+    allPlays.push(Object.assign({}, p, { player: g.player, opponent: g.opponent, date: g.date, gameId: g.id }));
+  }));
+  if (!allPlays.length) { content.innerHTML = '<div class="history-empty">No flagged plays yet. Analyze some footage to start building your reel.</div>'; return; }
+  const byGame = {};
+  allPlays.forEach(p => {
+    if (!byGame[p.gameId]) byGame[p.gameId] = { player: p.player, opponent: p.opponent, date: p.date, plays: [] };
+    byGame[p.gameId].plays.push(p);
+  });
+  content.innerHTML = Object.values(byGame).map(g =>
+    '<div class="reel-game-label">' + g.player + ' vs ' + g.opponent + '</div>' +
+    '<div class="reel-game-sub">' + g.date + ' &middot; ' + g.plays.length + ' play' + (g.plays.length!==1?'s':'') + '</div>' +
+    '<div class="play-list" style="margin-bottom:16px;">' +
+    g.plays.map(p =>
+      '<div class="play-item ' + (p.type==='highlight'?'highlight-play':'hustle-play') + '">' +
+      '<span class="play-badge2 ' + (p.type==='highlight'?'hl':'hu') + '">' + (p.type==='highlight'?'Highlight':'Hustle') + '</span>' +
+      '<span class="play-desc2">' + p.description + '</span>' +
+      '<span class="play-quarter">' + (p.quarter||'') + '</span></div>'
+    ).join('') + '</div>'
+  ).join('');
+}
+
+function viewEntry(id) {
+  const entry = gameHistory.find(e => e.id == id);
+  if (!entry) return;
+  switchTab('analyze', document.querySelectorAll('.tab')[0]);
+  document.getElementById('progressWrap').style.display = 'none';
+  document.getElementById('liveStats').style.display = 'none';
   renderFinalResults(entry);
-  document.getElementById('resultsArea').style.display='';
-  document.getElementById('progressWrap').style.display='none';
-  document.getElementById('liveStats').style.display='none';
+  document.getElementById('resultsArea').style.display = '';
 }
 </script>
 </body>

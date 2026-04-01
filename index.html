@@ -243,7 +243,6 @@ var sheetsOk = false;
 var hf = 'all';
 var sp = 'Kayla';
 var rf = 'all';
-var apiKey = null;
 var rs = {};
 
 function resetStats() {
@@ -266,7 +265,7 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 function callScript(params) {
-  var isGet = (params.action === 'readAll' || params.action === 'ensureHeaders' || params.action === 'getKey');
+  var isGet = (params.action === 'readAll' || params.action === 'ensureHeaders');
   if (isGet) {
     var url = new URL(SCRIPT_URL);
     url.searchParams.set('action', params.action);
@@ -286,29 +285,12 @@ function callScript(params) {
   }
 }
 
-function getKey() {
-  if (apiKey) return Promise.resolve(apiKey);
-  return callScript({action:'getKey'}).then(function(d) {
-    if (!d.key) throw new Error('ANTHROPIC_API_KEY not found in Script Properties. Please add it and redeploy.');
-    apiKey = d.key;
-    return apiKey;
-  });
-}
-
 function callAI(payload) {
-  return getKey().then(function(key) {
-    return fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': key,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify(payload)
-    });
-  }).then(function(r) {
-    if (!r.ok) return r.text().then(function(t) { throw new Error('Anthropic ' + r.status + ': ' + t); });
-    return r.json();
+  // Each frame is sent individually through Apps Script to avoid CORS.
+  // One call per frame stays well under Apps Script's execution timeout.
+  return callScript({action:'callAI', payload:JSON.stringify(payload)}).then(function(d) {
+    if (d.error) throw new Error('AI error: ' + d.error);
+    return d;
   });
 }
 
@@ -518,12 +500,10 @@ function startAnalysis() {
   var video = document.getElementById('vid');
   var duration, timestamps;
 
-  setProgTitle('Step 1: verifying key...');
-  setProgress(2, 'Checking API key...');
+  setProgTitle('Step 1: loading video...');
+  setProgress(5, 'Loading video file into browser...');
 
-  getKey().then(function() {
-    setProgTitle('Step 2: loading video...');
-    setProgress(5, 'Loading video file into browser...');
+  Promise.resolve().then(function() {
     video.src = URL.createObjectURL(videoFile);
     return new Promise(function(resolve, reject) {
       var timer = setTimeout(function() {
@@ -893,30 +873,25 @@ function testKey() {
   el.style.display = '';
   el.style.background = '#eef3fd';
   el.style.color = '#1a56a8';
-  el.textContent = 'Fetching API key from Apps Script...';
-  var url = new URL(SCRIPT_URL);
-  url.searchParams.set('action', 'getKey');
-  fetch(url.toString()).then(function(r) {
-    return r.json();
-  }).then(function(d) {
-    if (d.key) {
+  el.textContent = 'Testing AI call through Apps Script...';
+  callScript({action:'callAI', payload:JSON.stringify({
+    model: MODEL,
+    max_tokens: 20,
+    messages: [{role:'user', content:'Say OK'}]
+  })}).then(function(d) {
+    if (d.error) {
+      el.style.background = '#fef2f2';
+      el.style.color = '#7c2d00';
+      el.textContent = 'AI test failed: ' + d.error;
+    } else {
       el.style.background = '#f0f9f4';
       el.style.color = '#14532d';
-      el.textContent = 'API key retrieved OK. Starts with: ' + d.key.substring(0,8) + '...';
-      apiKey = d.key;
-    } else if (d.error) {
-      el.style.background = '#fef2f2';
-      el.style.color = '#7c2d00';
-      el.textContent = 'Key fetch returned error: ' + d.error;
-    } else {
-      el.style.background = '#fef2f2';
-      el.style.color = '#7c2d00';
-      el.textContent = 'Unexpected response: ' + JSON.stringify(d);
+      el.textContent = 'AI call OK! Response: ' + (d.content ? d.content.map(function(b){return b.text||'';}).join('') : JSON.stringify(d));
     }
   }).catch(function(e) {
     el.style.background = '#fef2f2';
     el.style.color = '#7c2d00';
-    el.textContent = 'Key fetch FAILED: ' + e.message;
+    el.textContent = 'AI test FAILED: ' + e.message;
   });
 }
 

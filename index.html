@@ -454,9 +454,9 @@ function updateBreadcrumb() {
 }
 function navCrumb(i) { breadcrumbs=breadcrumbs.slice(0,i+1); loadFolder(breadcrumbs[i].id,false); }
 async function callDrive(prompt) {
-  const res = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({ model:ANTHROPIC_MODEL, max_tokens:1000, messages:[{role:'user',content:prompt}], mcp_servers:[{type:'url',url:'https://drive.mcp.claude.com/mcp',name:'gdrive'}] }) });
-  const d = await res.json();
+  const payload = { model:ANTHROPIC_MODEL, max_tokens:1000, messages:[{role:'user',content:prompt}], mcp_servers:[{type:'url',url:'https://drive.mcp.claude.com/mcp',name:'gdrive'}] };
+  const d = await callScript({ action:'callAI', payload: JSON.stringify(payload) });
+  if (d.error) throw new Error(d.error);
   return JSON.parse(d.content.filter(b=>b.type==='text').map(b=>b.text).join('').replace(/```json|```/g,'').trim());
 }
 async function loadDriveRoot(){breadcrumbs=[];updateBreadcrumb();setDriveList('<div class="drive-empty">Loading...</div>');try{renderDriveItems(await callDrive('Use Google Drive MCP to list top-level folders. Return ONLY JSON array: [{id,name,mimeType,modifiedTime}]'));}catch(e){setDriveList('<div class="drive-empty">Could not connect to Google Drive.</div>');}}
@@ -508,12 +508,11 @@ async function analyzeVideo() {
     const prompt = `You are a basketball stats analyst. Analyze this game footage for ${player}${jersey?', jersey #'+jersey:''} vs ${opponent}. Extract or estimate all stats. For anything not clearly visible, estimate based on typical high school performance. Also identify specific highlight-reel plays and hustle plays. Return ONLY valid JSON:\n{"points":0,"oreb":0,"dreb":0,"assists":0,"steals":0,"blocks":0,"turnovers":0,"deflections":0,"minutesPlayed":0,"fgMade":0,"fgAttempted":0,"threeMade":0,"threeAttempted":0,"ftMade":0,"ftAttempted":0,"observations":"2-3 sentences","flaggedPlays":[{"type":"highlight or hustle","quarter":"Q1","description":"specific play"}]}`;
 
     setStatus('Analyzing with AI...');
-    const res = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ model:ANTHROPIC_MODEL, max_tokens:1500,
-        messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:mediaType,data:base64}},{type:'text',text:prompt}]}]
-      })
-    });
-    const d = await res.json();
+    const payload = { model:ANTHROPIC_MODEL, max_tokens:1500,
+      messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:mediaType,data:base64}},{type:'text',text:prompt}]}]
+    };
+    const d = await callScript({ action:'callAI', payload: JSON.stringify(payload) });
+    if (d.error) throw new Error(d.error);
     const stats = JSON.parse(d.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim());
 
     setStatus('Generating analysis...');
@@ -548,9 +547,8 @@ async function generateAnalysis(player, stats, opponent) {
   const hl = (stats.flaggedPlays||[]).filter(p=>p.type==='highlight').length;
   const hu = (stats.flaggedPlays||[]).filter(p=>p.type==='hustle').length;
   const prompt = `Basketball analyst. Stats for ${player} vs ${opponent}: Pts:${stats.points} OR:${stats.oreb} DR:${stats.dreb} Reb:${totalReb} Ast:${stats.assists} Stl:${stats.steals} Blk:${stats.blocks} TO:${stats.turnovers} Defl:${stats.deflections} Min:${mins} FG:${stats.fgMade}/${stats.fgAttempted}(${fgPct}%) 3PT:${stats.threeMade}/${stats.threeAttempted}(${threePct}%) FT:${stats.ftMade}/${stats.ftAttempted}(${ftPct}%) Highlights:${hl} Hustle:${hu}\nReturn ONLY JSON: {"topStrength":"","secondStrength":"","topImprovement":"","secondImprovement":"","efficiencySummary":"","efficiencyScores":{"scoring":0,"shooting":0,"defense":0,"rebounding":0,"hustle":0}}`;
-  const res = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({ model:ANTHROPIC_MODEL, max_tokens:600, messages:[{role:'user',content:prompt}] }) });
-  const d = await res.json();
+  const d = await callScript({ action:'callAI', payload: JSON.stringify({ model:ANTHROPIC_MODEL, max_tokens:600, messages:[{role:'user',content:prompt}] }) });
+  if (d.error) throw new Error(d.error);
   return JSON.parse(d.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim());
 }
 

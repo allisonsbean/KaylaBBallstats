@@ -8,7 +8,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f8f6; color: #1a1a1a; min-height: 100vh; }
   .header { background: #fff; border-bottom: 1px solid #e8e8e4; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .header-title { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+  .header-title { font-size: 16px; font-weight: 600; }
   .header-sub { font-size: 12px; color: #888; margin-top: 2px; }
   .sheets-status { font-size: 12px; padding: 5px 12px; border-radius: 20px; border: 1px solid #e0e0dc; background: #fafaf8; color: #888; display: flex; align-items: center; gap: 6px; }
   .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #ccc; flex-shrink: 0; }
@@ -18,73 +18,65 @@
   .tabs { display: flex; gap: 2px; margin-bottom: 24px; background: #eeeee9; border-radius: 10px; padding: 3px; }
   .tab { flex: 1; padding: 8px; border: none; background: transparent; border-radius: 8px; font-size: 12px; font-weight: 500; color: #666; cursor: pointer; transition: all 0.15s; }
   .tab.active { background: #fff; color: #1a1a1a; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-  .source-toggle { display: flex; gap: 8px; margin-bottom: 16px; }
-  .src-btn { flex: 1; padding: 9px; border: 1px solid #e0e0dc; border-radius: 8px; background: #fff; color: #666; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
-  .src-btn.active { border-color: #3b7dd8; color: #1a56a8; background: #eef3fd; }
-  .upload-zone { border: 1.5px dashed #d0d0cc; border-radius: 10px; padding: 2rem 1.5rem; text-align: center; cursor: pointer; transition: border-color 0.2s; background: #fff; }
+  .upload-zone { border: 1.5px dashed #d0d0cc; border-radius: 10px; padding: 2rem 1.5rem; text-align: center; cursor: pointer; background: #fff; transition: border-color 0.2s; }
   .upload-zone:hover { border-color: #aaa; }
   .upload-zone.dragover { border-color: #3b7dd8; }
   input[type=file] { display: none; }
-
-  /* ── VIDEO FRAME CAPTURE ── */
-  .frame-capture { background: #fff; border: 1px solid #e8e8e4; border-radius: 10px; overflow: hidden; margin-top: 0; }
-  .video-wrap { position: relative; background: #000; }
-  .video-wrap video { width: 100%; display: block; max-height: 320px; object-fit: contain; }
-  .scrubber-area { padding: 14px 16px 10px; border-top: 1px solid #f0f0ec; }
-  .scrubber-label { font-size: 11px; color: #999; margin-bottom: 6px; display: flex; justify-content: space-between; }
-  .scrubber-wrap { position: relative; height: 28px; display: flex; align-items: center; }
-  #videoScrubber { width: 100%; -webkit-appearance: none; appearance: none; height: 4px; background: #e0e0dc; border-radius: 2px; outline: none; cursor: pointer; }
-  #videoScrubber::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #1a1a1a; cursor: pointer; border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-  .frame-actions { display: flex; gap: 8px; padding: 10px 16px 14px; }
-  .frame-btn { flex: 1; padding: 9px; border: 1px solid #e0e0dc; border-radius: 8px; background: #fff; color: #1a1a1a; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
-  .frame-btn:hover { background: #f4f4f0; }
-  .frame-btn.primary { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
-  .frame-btn.primary:hover { background: #333; }
-  .frame-btn.captured { background: #f0f9f4; color: #14532d; border-color: #4caf7d; }
-  .frame-preview-wrap { padding: 0 16px 14px; display: none; }
-  .frame-preview-wrap img { width: 100%; border-radius: 6px; border: 1px solid #e8e8e4; }
-  .frame-preview-label { font-size: 12px; color: #888; margin-top: 6px; text-align: center; }
-  canvas { display: none; }
-
-  .drive-panel { border: 1px solid #e0e0dc; border-radius: 10px; overflow: hidden; background: #fff; }
-  .drive-search { display: flex; gap: 8px; padding: 10px; border-bottom: 1px solid #e8e8e4; background: #fafaf8; }
-  .drive-search input { flex: 1; padding: 7px 12px; border: 1px solid #e0e0dc; border-radius: 7px; font-size: 13px; background: #fff; color: #1a1a1a; }
-  .drive-search input:focus { outline: none; border-color: #3b7dd8; }
-  .drive-search button { padding: 7px 14px; border: 1px solid #e0e0dc; border-radius: 7px; background: #fff; color: #1a1a1a; font-size: 13px; cursor: pointer; white-space: nowrap; }
-  .drive-search button:hover { background: #f4f4f0; }
-  .drive-list { max-height: 200px; overflow-y: auto; }
-  .drive-item { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-bottom: 1px solid #f0f0ec; cursor: pointer; font-size: 13px; transition: background 0.1s; }
-  .drive-item:last-child { border-bottom: none; }
-  .drive-item:hover { background: #fafaf8; }
-  .drive-item.selected { background: #eef3fd; color: #1a56a8; }
-  .drive-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .drive-meta { font-size: 11px; color: #999; flex-shrink: 0; }
-  .drive-breadcrumb { padding: 7px 14px; font-size: 12px; color: #999; border-bottom: 1px solid #f0f0ec; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; background: #fafaf8; }
-  .crumb { cursor: pointer; color: #3b7dd8; }
-  .crumb:hover { text-decoration: underline; }
-  .drive-empty { padding: 1.5rem; text-align: center; font-size: 13px; color: #999; }
-  .selected-file-bar { margin-top: 8px; padding: 9px 14px; background: #fafaf8; border-radius: 8px; font-size: 13px; color: #666; display: none; border: 1px solid #e8e8e4; }
-  .selected-file-bar span { color: #1a1a1a; font-weight: 500; }
   .game-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
   .game-meta input, .game-meta select { width: 100%; padding: 8px 12px; border: 1px solid #e0e0dc; border-radius: 8px; background: #fff; color: #1a1a1a; font-size: 14px; }
   .game-meta input:focus, .game-meta select:focus { outline: none; border-color: #3b7dd8; }
-  .analyze-btn { width: 100%; margin-top: 14px; padding: 11px; border: 1px solid #e0e0dc; border-radius: 8px; background: #fff; color: #1a1a1a; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
-  .analyze-btn:hover { background: #f4f4f0; }
+  .analyze-btn { width: 100%; margin-top: 14px; padding: 12px; border: none; border-radius: 8px; background: #1a1a1a; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .analyze-btn:hover { background: #333; }
   .analyze-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .status-bar { margin-top: 12px; font-size: 13px; color: #888; min-height: 20px; text-align: center; }
-  .results { margin-top: 20px; }
-  .result-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
-  .result-player { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
-  .result-game { font-size: 13px; color: #888; }
-  .section-label { font-size: 11px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.07em; margin: 14px 0 8px; }
+
+  /* PROGRESS */
+  .progress-wrap { display: none; margin-top: 16px; background: #fff; border: 1px solid #e8e8e4; border-radius: 10px; padding: 16px; }
+  .progress-title { font-size: 13px; font-weight: 600; margin-bottom: 10px; }
+  .progress-bar-wrap { height: 6px; background: #eee; border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+  .progress-bar { height: 100%; background: #1a56a8; border-radius: 3px; transition: width 0.3s; }
+  .progress-status { font-size: 12px; color: #888; margin-bottom: 12px; }
+  .frame-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; max-height: 200px; overflow-y: auto; }
+  .frame-thumb { border-radius: 5px; overflow: hidden; position: relative; aspect-ratio: 16/9; background: #eee; }
+  .frame-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .frame-thumb .frame-status { position: absolute; bottom: 3px; right: 3px; font-size: 10px; padding: 1px 5px; border-radius: 3px; font-weight: 600; }
+  .frame-thumb .frame-status.done { background: #4caf7d; color: #fff; }
+  .frame-thumb .frame-status.active { background: #f5a623; color: #fff; }
+  .frame-thumb .frame-status.pending { background: rgba(0,0,0,0.4); color: #fff; }
+  .frame-thumb .frame-time { position: absolute; top: 3px; left: 3px; font-size: 10px; background: rgba(0,0,0,0.5); color: #fff; padding: 1px 5px; border-radius: 3px; }
+
+  /* LIVE STATS */
+  .live-stats { display: none; margin-top: 16px; background: #fff; border: 1px solid #e8e8e4; border-radius: 10px; padding: 16px; }
+  .live-stats-title { font-size: 13px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .live-badge { font-size: 10px; background: #f5a623; color: #fff; padding: 2px 7px; border-radius: 10px; font-weight: 600; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
   .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 4px; }
   .stat-grid-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-bottom: 4px; }
-  .stat-card { background: #fff; border: 1px solid #e8e8e4; border-radius: 9px; padding: 12px 10px; }
-  .stat-label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px; }
-  .stat-val { font-size: 22px; font-weight: 600; color: #1a1a1a; letter-spacing: -0.02em; }
+  .stat-card { background: #f8f8f6; border: 1px solid #e8e8e4; border-radius: 9px; padding: 10px; }
+  .stat-label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .stat-val { font-size: 22px; font-weight: 600; color: #1a1a1a; }
   .stat-val.blue { color: #1a56a8; }
   .stat-val.green { color: #1a7a4a; }
   .stat-val.amber { color: #a05a00; }
+  .section-label { font-size: 11px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.07em; margin: 14px 0 8px; }
+
+  /* PLAYS LOG */
+  .plays-log { margin-top: 12px; max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 5px; }
+  .play-entry { display: flex; align-items: flex-start; gap: 8px; padding: 7px 10px; border-radius: 7px; font-size: 12px; border: 1px solid; }
+  .play-entry.highlight-play { border-color: #f5c4a0; background: #fef7f0; }
+  .play-entry.hustle-play { border-color: #9fe0c0; background: #f0faf5; }
+  .play-entry.stat-play { border-color: #c5d8f8; background: #eef3fd; }
+  .play-badge { font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; }
+  .play-badge.hl { background: #f5c4a0; color: #7c2d00; }
+  .play-badge.hu { background: #9fe0c0; color: #0a4a28; }
+  .play-badge.st { background: #c5d8f8; color: #0a2a5a; }
+  .play-time { font-size: 10px; color: #999; flex-shrink: 0; }
+  .play-desc { color: #1a1a1a; flex: 1; line-height: 1.4; }
+
+  /* RESULTS */
+  .results { margin-top: 20px; display: none; }
+  .result-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+  .result-player { font-size: 20px; font-weight: 600; }
+  .result-game { font-size: 13px; color: #888; }
   .notes-block { background: #fff; border: 1px solid #e8e8e4; border-radius: 9px; padding: 14px 16px; font-size: 14px; line-height: 1.7; }
   .analysis-block { border-radius: 9px; padding: 14px 16px; font-size: 14px; line-height: 1.7; margin-bottom: 8px; }
   .analysis-block.strength { background: #f0f9f4; color: #14532d; border-left: 3px solid #4caf7d; }
@@ -99,10 +91,10 @@
   .play-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 13px; border-radius: 8px; font-size: 13px; line-height: 1.5; border: 1px solid; }
   .play-item.highlight-play { border-color: #f5c4a0; background: #fef7f0; }
   .play-item.hustle-play { border-color: #9fe0c0; background: #f0faf5; }
-  .play-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; letter-spacing: 0.03em; }
-  .play-badge.hl { background: #f5c4a0; color: #7c2d00; }
-  .play-badge.hu { background: #9fe0c0; color: #0a4a28; }
-  .play-desc { color: #1a1a1a; flex: 1; }
+  .play-badge2 { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+  .play-badge2.hl { background: #f5c4a0; color: #7c2d00; }
+  .play-badge2.hu { background: #9fe0c0; color: #0a4a28; }
+  .play-desc2 { color: #1a1a1a; flex: 1; }
   .play-quarter { font-size: 11px; color: #999; flex-shrink: 0; margin-top: 2px; }
   .history-empty { font-size: 14px; color: #999; text-align: center; padding: 3rem 0; }
   .history-item { background: #fff; border: 1px solid #e8e8e4; border-radius: 10px; padding: 14px 16px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.15s; }
@@ -116,12 +108,13 @@
   .flag-pill.hl { background: #f5c4a0; color: #7c2d00; }
   .flag-pill.hu { background: #9fe0c0; color: #0a4a28; }
   .player-filter { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-  .pf-btn { padding: 6px 14px; border: 1px solid #e0e0dc; border-radius: 20px; background: #fff; color: #666; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+  .pf-btn { padding: 6px 14px; border: 1px solid #e0e0dc; border-radius: 20px; background: #fff; color: #666; font-size: 13px; cursor: pointer; }
   .pf-btn.active { border-color: #3b7dd8; color: #1a56a8; background: #eef3fd; }
   .reel-game-label { font-size: 14px; font-weight: 600; margin: 14px 0 3px; }
   .reel-game-sub { font-size: 12px; color: #999; margin-bottom: 8px; }
   .season-summary { font-size: 13px; color: #888; margin-bottom: 14px; }
-  .tip-bar { background: #eef3fd; border: 1px solid #c5d8f8; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #1a56a8; margin-bottom: 14px; line-height: 1.5; }
+  canvas { display: none; }
+  .info-box { background: #eef3fd; border: 1px solid #c5d8f8; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #1a56a8; line-height: 1.6; margin-bottom: 16px; }
 </style>
 </head>
 <body>
@@ -139,81 +132,84 @@
 
 <div class="container">
   <div class="tabs">
-    <button class="tab active" onclick="switchMainTab('analyze',this)">Analyze video</button>
-    <button class="tab" onclick="switchMainTab('history',this)">Game history</button>
-    <button class="tab" onclick="switchMainTab('season',this)">Season analysis</button>
-    <button class="tab" onclick="switchMainTab('reel',this)">Highlight reel</button>
+    <button class="tab active" onclick="switchTab('analyze',this)">Analyze video</button>
+    <button class="tab" onclick="switchTab('history',this)">Game history</button>
+    <button class="tab" onclick="switchTab('season',this)">Season analysis</button>
+    <button class="tab" onclick="switchTab('reel',this)">Highlight reel</button>
   </div>
 
+  <!-- ANALYZE TAB -->
   <div id="tab-analyze">
-    <div class="source-toggle">
-      <button class="src-btn active" id="srcLocal" onclick="switchSource('local')">Upload from device</button>
-      <button class="src-btn" id="srcDrive" onclick="switchSource('drive')">Browse Google Drive</button>
+    <div class="info-box">
+      Upload a quarter video. The tracker will automatically extract frames across the entire clip, watch each one, and build up her stats as it goes. Jersey number helps it find her in the frame.
     </div>
 
-    <!-- LOCAL PANEL -->
-    <div id="localPanel">
-      <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-        <div style="font-size:28px;margin-bottom:10px;">🏀</div>
-        <div style="font-size:15px;margin-bottom:4px;" id="uploadLabel">Drop a game video or image, or click to upload</div>
-        <div style="font-size:13px;color:#999;" id="uploadSub">MP4, MOV, or screenshot — videos load a frame scrubber</div>
-      </div>
-      <input type="file" id="fileInput" accept="video/*,image/*" onchange="handleFile(this)">
-
-      <!-- VIDEO FRAME CAPTURE — shown after video loaded -->
-      <div class="frame-capture" id="frameCapturePanel" style="display:none;margin-top:12px;">
-        <div class="video-wrap">
-          <video id="videoEl" preload="metadata" playsinline muted></video>
-        </div>
-        <div class="scrubber-area">
-          <div class="scrubber-label">
-            <span>Drag to the moment you want to analyze</span>
-            <span id="timeDisplay">0:00 / 0:00</span>
-          </div>
-          <input type="range" id="videoScrubber" min="0" max="1000" value="0" oninput="scrubVideo(this.value)">
-        </div>
-        <div class="frame-preview-wrap" id="framePreviewWrap">
-          <img id="framePreview" src="" alt="Captured frame">
-          <div class="frame-preview-label" id="framePreviewLabel"></div>
-        </div>
-        <div class="frame-actions">
-          <button class="frame-btn" onclick="playPause()">▶ Play / Pause</button>
-          <button class="frame-btn primary" id="captureBtn" onclick="captureFrame()">Capture this frame</button>
-        </div>
-        <canvas id="frameCanvas"></canvas>
-      </div>
+    <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+      <div style="font-size:28px;margin-bottom:10px;">🏀</div>
+      <div style="font-size:15px;margin-bottom:4px;" id="uploadLabel">Drop a quarter video or click to upload</div>
+      <div style="font-size:13px;color:#999;" id="uploadSub">MP4, MOV — the whole clip will be analyzed automatically</div>
     </div>
-
-    <!-- DRIVE PANEL -->
-    <div id="drivePanel" style="display:none;">
-      <div class="drive-panel">
-        <div class="drive-search">
-          <input type="text" id="driveSearchInput" placeholder="Search by opponent or date" onkeydown="if(event.key==='Enter')searchDrive()">
-          <button onclick="searchDrive()">Search</button>
-          <button onclick="loadDriveRoot()">All folders</button>
-        </div>
-        <div class="drive-breadcrumb" id="driveBreadcrumb" style="display:none;"></div>
-        <div class="drive-list" id="driveList"><div class="drive-empty">Search or browse to find your game folders.</div></div>
-      </div>
-      <div class="selected-file-bar" id="selectedFileBar">Selected: <span id="selectedFileName">—</span></div>
-    </div>
+    <input type="file" id="fileInput" accept="video/*" onchange="handleFile(this)">
 
     <div class="game-meta">
       <select id="playerSelect"><option value="Kayla">Kayla</option><option value="Kenzie">Kenzie</option></select>
       <input type="text" id="opponentInput" placeholder="Opponent (e.g. Liberty HS)">
       <input type="date" id="gameDateInput">
-      <input type="text" id="jerseyInput" placeholder="Jersey # (helps AI find her)">
+      <input type="text" id="jerseyInput" placeholder="Jersey # (required — helps AI find her)">
+    </div>
+    <select id="quarterSelect" style="width:100%;margin-top:10px;padding:8px 12px;border:1px solid #e0e0dc;border-radius:8px;background:#fff;color:#1a1a1a;font-size:14px;">
+      <option value="Q1">Quarter 1</option>
+      <option value="Q2">Quarter 2</option>
+      <option value="Q3">Quarter 3</option>
+      <option value="Q4">Quarter 4</option>
+      <option value="Full">Full game</option>
+    </select>
+
+    <button class="analyze-btn" id="analyzeBtn" onclick="startAnalysis()">Watch film and extract stats</button>
+
+    <!-- PROGRESS -->
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-title" id="progressTitle">Extracting frames...</div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+      <div class="progress-status" id="progressStatus">Getting ready...</div>
+      <div class="frame-grid" id="frameGrid"></div>
     </div>
 
-    <button class="analyze-btn" id="analyzeBtn" onclick="analyzeVideo()">Analyze game footage</button>
-    <div class="status-bar" id="statusBar"></div>
-    <div id="corsWarning" style="display:none;margin-top:12px;background:#fff8e1;border:1px solid #f5c842;border-radius:9px;padding:14px 16px;font-size:13px;line-height:1.7;color:#5a3e00;">
-      <strong>This file needs to run from a web server to work.</strong> Opening it as a local file blocks the AI API.<br><br>
-      Fix: go to <strong>github.com/allisonsbean/KaylaBBallstats</strong>, upload this file renamed to <code>index.html</code>, then Settings &gt; Pages &gt; Branch: main &gt; Save. Live at <strong>allisonsbean.github.io/KaylaBBallstats</strong> in ~60 seconds.
+    <!-- LIVE STATS -->
+    <div class="live-stats" id="liveStats">
+      <div class="live-stats-title">
+        Running totals <span class="live-badge" id="liveBadge">LIVE</span>
+      </div>
+      <div class="section-label">Scoring</div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-label">Points</div><div class="stat-val blue" id="ls-points">0</div></div>
+        <div class="stat-card"><div class="stat-label">FG</div><div class="stat-val" id="ls-fg">0/0</div></div>
+        <div class="stat-card"><div class="stat-label">3PT</div><div class="stat-val" id="ls-3pt">0/0</div></div>
+        <div class="stat-card"><div class="stat-label">FT</div><div class="stat-val" id="ls-ft">0/0</div></div>
+      </div>
+      <div class="section-label">Rebounds</div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-label">Off reb</div><div class="stat-val green" id="ls-oreb">0</div></div>
+        <div class="stat-card"><div class="stat-label">Def reb</div><div class="stat-val green" id="ls-dreb">0</div></div>
+        <div class="stat-card"><div class="stat-label">Total</div><div class="stat-val" id="ls-reb">0</div></div>
+        <div class="stat-card"><div class="stat-label">Assists</div><div class="stat-val" id="ls-ast">0</div></div>
+      </div>
+      <div class="section-label">Defense & hustle</div>
+      <div class="stat-grid-5">
+        <div class="stat-card"><div class="stat-label">Steals</div><div class="stat-val green" id="ls-stl">0</div></div>
+        <div class="stat-card"><div class="stat-label">Blocks</div><div class="stat-val green" id="ls-blk">0</div></div>
+        <div class="stat-card"><div class="stat-label">Deflections</div><div class="stat-val green" id="ls-defl">0</div></div>
+        <div class="stat-card"><div class="stat-label">Turnovers</div><div class="stat-val amber" id="ls-to">0</div></div>
+        <div class="stat-card"><div class="stat-label">Minutes</div><div class="stat-val blue" id="ls-min">0</div></div>
+      </div>
+      <div class="section-label">Plays detected</div>
+      <div class="plays-log" id="playsLog"></div>
     </div>
-    <div class="results" id="resultsArea" style="display:none;"></div>
+
+    <div class="results" id="resultsArea"></div>
   </div>
 
+  <!-- HISTORY TAB -->
   <div id="tab-history" style="display:none;">
     <div class="player-filter">
       <button class="pf-btn active" onclick="setHistoryFilter('all',this)">All</button>
@@ -223,6 +219,7 @@
     <div id="historyList"></div>
   </div>
 
+  <!-- SEASON TAB -->
   <div id="tab-season" style="display:none;">
     <div class="player-filter">
       <button class="pf-btn active" onclick="setSeasonPlayer('Kayla',this)">Kayla</button>
@@ -231,6 +228,7 @@
     <div id="seasonContent"></div>
   </div>
 
+  <!-- REEL TAB -->
   <div id="tab-reel" style="display:none;">
     <div class="player-filter">
       <button class="pf-btn active" onclick="setReelFilter('all',this)">All players</button>
@@ -243,22 +241,25 @@
   </div>
 </div>
 
+<canvas id="frameCanvas"></canvas>
+<video id="videoEl" preload="auto" muted style="display:none;"></video>
+
 <script>
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVbJFK_q0tJXj2_dfUyIQzcvzLZWxaCWcmlN9v4vMwVfyFzB18vO1pnA-wcsoK_6U4zA/exec';
 const ANTHROPIC_MODEL = 'claude-sonnet-4-20250514';
+const FRAMES_PER_MINUTE = 4; // 4 frames per minute of video = 1 frame every 15 seconds
 
-let uploadedFile = null, capturedFrameBase64 = null, capturedFrameTime = 0;
-let selectedDriveFileId = null, selectedDriveFileName = null;
-let currentSource = 'local', breadcrumbs = [];
+let uploadedFile = null, gameHistory = [], sheetsReady = false;
 let historyFilter = 'all', seasonPlayer = 'Kayla', reelFilter = 'all';
-let gameHistory = [], sheetsReady = false;
-let videoPlaying = false;
+
+// Running stats accumulator
+let runningStats = { points:0, oreb:0, dreb:0, assists:0, steals:0, blocks:0, turnovers:0, deflections:0, minutesPlayed:0, fgMade:0, fgAttempted:0, threeMade:0, threeAttempted:0, ftMade:0, ftAttempted:0, flaggedPlays:[] };
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
   updateStatusBadge('connecting');
   try {
-    await callScript({ action: 'ensureHeaders' });
+    await callScript({ action:'ensureHeaders' });
     await loadFromSheets();
     updateStatusBadge('connected');
     sheetsReady = true;
@@ -270,331 +271,398 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 // ── APPS SCRIPT ───────────────────────────────────────────────────────────────
 async function callScript(params) {
-  if (params.action === 'readAll' || params.action === 'ensureHeaders') {
+  if (params.action==='readAll'||params.action==='ensureHeaders') {
     const url = new URL(APPS_SCRIPT_URL);
     url.searchParams.set('action', params.action);
     const res = await fetch(url.toString());
-    if (!res.ok) throw new Error('Script error: ' + res.status);
+    if (!res.ok) throw new Error('Script error: '+res.status);
     return res.json();
   } else {
-    const res = await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(params)
-    });
-    if (!res.ok) throw new Error('Script error: ' + res.status);
+    const res = await fetch(APPS_SCRIPT_URL, { method:'POST', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(params) });
+    if (!res.ok) throw new Error('Script error: '+res.status);
     return res.json();
   }
 }
 
+async function callAI(payload) {
+  const d = await callScript({ action:'callAI', payload:JSON.stringify(payload) });
+  if (d.error) throw new Error(d.error);
+  return d;
+}
+
 async function loadFromSheets() {
-  const data = await callScript({ action: 'readAll' });
+  const data = await callScript({ action:'readAll' });
   const plays = {};
-  (data.plays || []).forEach(row => {
+  (data.plays||[]).forEach(row => {
     const [gameId,,,,type,quarter,description] = row;
-    if (!plays[gameId]) plays[gameId] = [];
-    plays[gameId].push({ type, quarter, description });
+    if (!plays[gameId]) plays[gameId]=[];
+    plays[gameId].push({type,quarter,description});
   });
-  gameHistory = (data.games || []).map(row => {
+  gameHistory = (data.games||[]).map(row => {
     const id = row[0];
-    return {
-      id, player: row[1], opponent: row[2], date: row[3], jersey: row[4], source: row[21],
-      stats: {
-        points: +row[5]||0, oreb: +row[6]||0, dreb: +row[7]||0, assists: +row[8]||0,
-        steals: +row[9]||0, blocks: +row[10]||0, turnovers: +row[11]||0, deflections: +row[12]||0,
-        minutesPlayed: +row[13]||0, fgMade: +row[14]||0, fgAttempted: +row[15]||0,
-        threeMade: +row[16]||0, threeAttempted: +row[17]||0, ftMade: +row[18]||0, ftAttempted: +row[19]||0,
-        observations: row[20]||'', flaggedPlays: plays[id]||[]
-      },
-      analysis: {
-        topStrength: row[22]||'', secondStrength: row[23]||'',
-        topImprovement: row[24]||'', secondImprovement: row[25]||'',
-        efficiencySummary: row[26]||'',
-        efficiencyScores: { scoring: +row[27]||0, shooting: +row[28]||0, defense: +row[29]||0, rebounding: +row[30]||0, hustle: +row[31]||0 }
-      }
+    return { id, player:row[1], opponent:row[2], date:row[3], jersey:row[4], source:row[21],
+      stats:{ points:+row[5]||0, oreb:+row[6]||0, dreb:+row[7]||0, assists:+row[8]||0, steals:+row[9]||0, blocks:+row[10]||0, turnovers:+row[11]||0, deflections:+row[12]||0, minutesPlayed:+row[13]||0, fgMade:+row[14]||0, fgAttempted:+row[15]||0, threeMade:+row[16]||0, threeAttempted:+row[17]||0, ftMade:+row[18]||0, ftAttempted:+row[19]||0, observations:row[20]||'', flaggedPlays:plays[id]||[] },
+      analysis:{ topStrength:row[22]||'', secondStrength:row[23]||'', topImprovement:row[24]||'', secondImprovement:row[25]||'', efficiencySummary:row[26]||'', efficiencyScores:{scoring:+row[27]||0,shooting:+row[28]||0,defense:+row[29]||0,rebounding:+row[30]||0,hustle:+row[31]||0} }
     };
   }).reverse();
 }
 
 async function saveEntryToSheets(entry) {
-  const s = entry.stats, a = entry.analysis;
-  const row = [
-    entry.id, entry.player, entry.opponent, entry.date, entry.jersey||'',
-    s.points, s.oreb, s.dreb, s.assists, s.steals, s.blocks, s.turnovers, s.deflections, s.minutesPlayed,
-    s.fgMade, s.fgAttempted, s.threeMade, s.threeAttempted, s.ftMade, s.ftAttempted,
-    s.observations||'', entry.source||'',
-    a.topStrength||'', a.secondStrength||'', a.topImprovement||'', a.secondImprovement||'', a.efficiencySummary||'',
-    a.efficiencyScores.scoring, a.efficiencyScores.shooting, a.efficiencyScores.defense,
-    a.efficiencyScores.rebounding, a.efficiencyScores.hustle
-  ];
-  await callScript({ action: 'appendGame', row: JSON.stringify(row) });
-  if (s.flaggedPlays && s.flaggedPlays.length) {
-    const rows = s.flaggedPlays.map(p => [entry.id, entry.player, entry.opponent, entry.date, p.type, p.quarter||'', p.description||'']);
-    await callScript({ action: 'appendPlays', rows: JSON.stringify(rows) });
+  const s=entry.stats, a=entry.analysis;
+  const row=[entry.id,entry.player,entry.opponent,entry.date,entry.jersey||'',s.points,s.oreb,s.dreb,s.assists,s.steals,s.blocks,s.turnovers,s.deflections,s.minutesPlayed,s.fgMade,s.fgAttempted,s.threeMade,s.threeAttempted,s.ftMade,s.ftAttempted,s.observations||'',entry.source||'',a.topStrength||'',a.secondStrength||'',a.topImprovement||'',a.secondImprovement||'',a.efficiencySummary||'',a.efficiencyScores.scoring,a.efficiencyScores.shooting,a.efficiencyScores.defense,a.efficiencyScores.rebounding,a.efficiencyScores.hustle];
+  await callScript({ action:'appendGame', row:JSON.stringify(row) });
+  if (s.flaggedPlays&&s.flaggedPlays.length) {
+    const rows=s.flaggedPlays.map(p=>[entry.id,entry.player,entry.opponent,entry.date,p.type,p.quarter||'',p.description||'']);
+    await callScript({ action:'appendPlays', rows:JSON.stringify(rows) });
   }
 }
 
 function updateStatusBadge(state) {
-  const dot = document.getElementById('statusDot'), txt = document.getElementById('statusText');
-  dot.className = 'status-dot';
-  if (state === 'connected') { dot.classList.add('connected'); txt.textContent = 'Sheets connected'; }
-  else if (state === 'error') { dot.classList.add('error'); txt.textContent = 'Connection error'; }
-  else txt.textContent = 'Connecting...';
+  const dot=document.getElementById('statusDot'), txt=document.getElementById('statusText');
+  dot.className='status-dot';
+  if (state==='connected') { dot.classList.add('connected'); txt.textContent='Sheets connected'; }
+  else if (state==='error') { dot.classList.add('error'); txt.textContent='Connection error'; }
+  else txt.textContent='Connecting...';
 }
 
 // ── TABS ──────────────────────────────────────────────────────────────────────
-function switchMainTab(tab, el) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
-  ['analyze','history','season','reel'].forEach(t => document.getElementById('tab-'+t).style.display = t===tab?'':'none');
+  ['analyze','history','season','reel'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'':'none');
   if (tab==='history') renderHistory();
   if (tab==='season') renderSeason();
   if (tab==='reel') renderReel();
 }
 
-// ── SOURCE TOGGLE ─────────────────────────────────────────────────────────────
-function switchSource(src) {
-  currentSource = src;
-  document.getElementById('srcLocal').classList.toggle('active', src==='local');
-  document.getElementById('srcDrive').classList.toggle('active', src==='drive');
-  document.getElementById('localPanel').style.display = src==='local'?'':'none';
-  document.getElementById('drivePanel').style.display = src==='drive'?'':'none';
-}
-
-// ── FILE HANDLING & FRAME CAPTURE ─────────────────────────────────────────────
+// ── FILE HANDLING ─────────────────────────────────────────────────────────────
 const dropZone = document.getElementById('dropZone');
-dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('dragover'); if(e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]); });
-function handleFile(i) { if(i.files[0]) setFile(i.files[0]); }
+dropZone.addEventListener('dragover', e=>{e.preventDefault();dropZone.classList.add('dragover');});
+dropZone.addEventListener('dragleave', ()=>dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e=>{e.preventDefault();dropZone.classList.remove('dragover');if(e.dataTransfer.files[0])setFile(e.dataTransfer.files[0]);});
+function handleFile(i){if(i.files[0])setFile(i.files[0]);}
+function setFile(f){
+  uploadedFile=f;
+  document.getElementById('uploadLabel').textContent=f.name;
+  document.getElementById('uploadSub').textContent=(f.size/1024/1024).toFixed(1)+' MB — ready to analyze';
+}
 
-function setFile(f) {
-  uploadedFile = f;
-  capturedFrameBase64 = null;
-  const isVideo = f.type.startsWith('video/');
-  document.getElementById('uploadLabel').textContent = f.name;
-  document.getElementById('uploadSub').textContent = (f.size/1024/1024).toFixed(1) + ' MB';
-
-  const panel = document.getElementById('frameCapturePanel');
-  if (isVideo) {
-    panel.style.display = '';
-    const video = document.getElementById('videoEl');
-    video.src = URL.createObjectURL(f);
-    video.onloadedmetadata = () => {
-      document.getElementById('timeDisplay').textContent = '0:00 / ' + fmtTime(video.duration);
+// ── FRAME EXTRACTION ──────────────────────────────────────────────────────────
+function extractFrame(video, timeSeconds) {
+  return new Promise(resolve => {
+    video.currentTime = timeSeconds;
+    video.onseeked = () => {
+      const canvas = document.getElementById('frameCanvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+      const b64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+      resolve(b64);
     };
-    // reset
-    document.getElementById('videoScrubber').value = 0;
-    document.getElementById('framePreviewWrap').style.display = 'none';
-    document.getElementById('captureBtn').textContent = 'Capture this frame';
-    document.getElementById('captureBtn').className = 'frame-btn primary';
-  } else {
-    panel.style.display = 'none';
-    // it's an image — convert to base64 directly
-    toBase64(f).then(b64 => { capturedFrameBase64 = b64; });
-  }
-}
-
-function scrubVideo(val) {
-  const video = document.getElementById('videoEl');
-  if (!video.duration) return;
-  const t = (val / 1000) * video.duration;
-  video.currentTime = t;
-  capturedFrameTime = t;
-  document.getElementById('timeDisplay').textContent = fmtTime(t) + ' / ' + fmtTime(video.duration);
-}
-
-function playPause() {
-  const video = document.getElementById('videoEl');
-  if (video.paused) {
-    video.play();
-    const scrubber = document.getElementById('videoScrubber');
-    const interval = setInterval(() => {
-      if (video.paused || video.ended) { clearInterval(interval); return; }
-      scrubber.value = Math.round((video.currentTime / video.duration) * 1000);
-      document.getElementById('timeDisplay').textContent = fmtTime(video.currentTime) + ' / ' + fmtTime(video.duration);
-    }, 200);
-  } else {
-    video.pause();
-  }
-}
-
-function captureFrame() {
-  const video = document.getElementById('videoEl');
-  const canvas = document.getElementById('frameCanvas');
-  canvas.width = video.videoWidth || 1280;
-  canvas.height = video.videoHeight || 720;
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  capturedFrameBase64 = canvas.toDataURL('image/jpeg', 0.92).split(',')[1];
-
-  // show preview
-  const preview = document.getElementById('framePreview');
-  preview.src = canvas.toDataURL('image/jpeg', 0.6);
-  document.getElementById('framePreviewWrap').style.display = '';
-  document.getElementById('framePreviewLabel').textContent = 'Frame captured at ' + fmtTime(video.currentTime);
-  const btn = document.getElementById('captureBtn');
-  btn.textContent = 'Frame captured — re-capture anytime';
-  btn.className = 'frame-btn captured';
+  });
 }
 
 function fmtTime(s) {
-  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
-  return m + ':' + String(sec).padStart(2, '0');
+  const m=Math.floor(s/60), sec=Math.floor(s%60);
+  return m+':'+String(sec).padStart(2,'0');
 }
 
-// ── DRIVE ─────────────────────────────────────────────────────────────────────
-function setDriveList(html) { document.getElementById('driveList').innerHTML = html; }
-function updateBreadcrumb() {
-  const bc = document.getElementById('driveBreadcrumb');
-  if (!breadcrumbs.length) { bc.style.display='none'; return; }
-  bc.style.display = 'flex';
-  bc.innerHTML = '<span class="crumb" onclick="loadDriveRoot()">Drive</span>' +
-    breadcrumbs.map((b,i) => `<span style="color:#bbb;">/</span><span class="crumb" onclick="navCrumb(${i})">${b.name}</span>`).join('');
-}
-function navCrumb(i) { breadcrumbs=breadcrumbs.slice(0,i+1); loadFolder(breadcrumbs[i].id,false); }
-async function callDrive(prompt) {
-  const payload = { model:ANTHROPIC_MODEL, max_tokens:1000, messages:[{role:'user',content:prompt}], mcp_servers:[{type:'url',url:'https://drive.mcp.claude.com/mcp',name:'gdrive'}] };
-  const d = await callScript({ action:'callAI', payload: JSON.stringify(payload) });
-  if (d.error) throw new Error(d.error);
-  return JSON.parse(d.content.filter(b=>b.type==='text').map(b=>b.text).join('').replace(/```json|```/g,'').trim());
-}
-async function loadDriveRoot(){breadcrumbs=[];updateBreadcrumb();setDriveList('<div class="drive-empty">Loading...</div>');try{renderDriveItems(await callDrive('Use Google Drive MCP to list top-level folders. Return ONLY JSON array: [{id,name,mimeType,modifiedTime}]'));}catch(e){setDriveList('<div class="drive-empty">Could not connect to Google Drive.</div>');}}
-async function searchDrive(){const q=document.getElementById('driveSearchInput').value.trim();if(!q){loadDriveRoot();return;}breadcrumbs=[];updateBreadcrumb();setDriveList('<div class="drive-empty">Searching...</div>');try{renderDriveItems(await callDrive(`Use Google Drive MCP to search for files/folders matching "${q}". Return ONLY JSON array: [{id,name,mimeType,modifiedTime}]`));}catch(e){setDriveList('<div class="drive-empty">Search failed.</div>');}}
-async function loadFolder(id,crumb){if(crumb){breadcrumbs.push(crumb);updateBreadcrumb();}setDriveList('<div class="drive-empty">Loading...</div>');try{renderDriveItems(await callDrive(`Use Google Drive MCP to list files inside folder ID "${id}". Return ONLY JSON array: [{id,name,mimeType,modifiedTime}]`));}catch(e){setDriveList('<div class="drive-empty">Could not open folder.</div>');}}
-function isFolder(m){return m==='application/vnd.google-apps.folder';}
-function isVideo(m){return m&&(m.startsWith('video/')||m.includes('mp4')||m.includes('quicktime'));}
-function renderDriveItems(items){
-  if(!Array.isArray(items)||!items.length){setDriveList('<div class="drive-empty">No files found.</div>');return;}
-  const sorted=[...items].sort((a,b)=>{if(isFolder(a.mimeType)&&!isFolder(b.mimeType))return -1;if(!isFolder(a.mimeType)&&isFolder(b.mimeType))return 1;return a.name.localeCompare(b.name);});
-  setDriveList(sorted.map(item=>{const folder=isFolder(item.mimeType),icon=folder?'📁':isVideo(item.mimeType)?'🎬':'📄',date=item.modifiedTime?item.modifiedTime.slice(0,10):'',safe=item.name.replace(/'/g,"\\'");
-    return folder?`<div class="drive-item" id="di-${item.id}" onclick="loadFolder('${item.id}',{id:'${item.id}',name:'${safe}'})"><span>${icon}</span><span class="drive-name">${item.name}</span><span class="drive-meta">${date}</span></div>`:
-    `<div class="drive-item" id="di-${item.id}" onclick="selectDriveFile('${item.id}','${safe}')"><span>${icon}</span><span class="drive-name">${item.name}</span><span class="drive-meta">${date}</span></div>`;}).join(''));
-}
-function selectDriveFile(id,name){selectedDriveFileId=id;selectedDriveFileName=name;document.querySelectorAll('.drive-item').forEach(el=>el.classList.remove('selected'));const el=document.getElementById('di-'+id);if(el)el.classList.add('selected');document.getElementById('selectedFileBar').style.display='';document.getElementById('selectedFileName').textContent=name;}
-
-// ── ANALYZE ───────────────────────────────────────────────────────────────────
-async function analyzeVideo() {
+// ── MAIN ANALYSIS ─────────────────────────────────────────────────────────────
+async function startAnalysis() {
   const player = document.getElementById('playerSelect').value;
   const opponent = document.getElementById('opponentInput').value || 'Unknown opponent';
   const date = document.getElementById('gameDateInput').value || new Date().toISOString().slice(0,10);
   const jersey = document.getElementById('jerseyInput').value;
+  const quarter = document.getElementById('quarterSelect').value;
 
-  // validation
-  if (currentSource === 'local') {
-    if (!uploadedFile) { setStatus('Please upload a file first.'); return; }
-    if (uploadedFile.type.startsWith('video/') && !capturedFrameBase64) {
-      setStatus('Drag the scrubber to a moment in the video and hit "Capture this frame" first.'); return;
-    }
-  }
-  if (currentSource === 'drive' && !selectedDriveFileId) { setStatus('Please select a file from Drive first.'); return; }
+  if (!uploadedFile) { alert('Please upload a video first.'); return; }
+  if (!jersey) { alert('Jersey number is required so the AI can find your player in the footage.'); return; }
 
-  const btn = document.getElementById('analyzeBtn'); btn.disabled = true;
+  const btn = document.getElementById('analyzeBtn');
+  btn.disabled = true;
+
+  // Reset running stats
+  runningStats = { points:0, oreb:0, dreb:0, assists:0, steals:0, blocks:0, turnovers:0, deflections:0, minutesPlayed:0, fgMade:0, fgAttempted:0, threeMade:0, threeAttempted:0, ftMade:0, ftAttempted:0, flaggedPlays:[] };
+  document.getElementById('playsLog').innerHTML = '';
+  updateLiveStats();
+
+  // Show progress and live stats
+  document.getElementById('progressWrap').style.display = '';
+  document.getElementById('liveStats').style.display = '';
+  document.getElementById('resultsArea').style.display = 'none';
+  document.getElementById('frameGrid').innerHTML = '';
+
   try {
-    let base64, mediaType = 'image/jpeg';
+    // Load video
+    const video = document.getElementById('videoEl');
+    video.src = URL.createObjectURL(uploadedFile);
+    await new Promise(resolve => { video.onloadedmetadata = resolve; });
+    const duration = video.duration;
+    runningStats.minutesPlayed = Math.round(duration / 60);
 
-    if (currentSource === 'drive') {
-      setStatus('Fetching from Drive...');
-      const r = await callDrive(`Use Google Drive MCP to get file ID "${selectedDriveFileId}". Return ONLY JSON: {base64,mimeType}`);
-      base64 = r.base64; mediaType = r.mimeType || 'image/jpeg';
-    } else if (uploadedFile.type.startsWith('video/')) {
-      base64 = capturedFrameBase64; // already captured
-    } else {
-      setStatus('Reading image...');
-      base64 = await toBase64(uploadedFile);
-      mediaType = uploadedFile.type || 'image/jpeg';
+    // Calculate frame timestamps — one frame every 15 seconds
+    const interval = 15;
+    const frameCount = Math.max(4, Math.ceil(duration / interval));
+    const timestamps = [];
+    for (let i = 0; i < frameCount; i++) {
+      timestamps.push(Math.min((i / (frameCount - 1)) * duration, duration - 0.5));
     }
 
-    const prompt = `You are a basketball stats analyst. Analyze this game footage for ${player}${jersey?', jersey #'+jersey:''} vs ${opponent}. Extract or estimate all stats. For anything not clearly visible, estimate based on typical high school performance. Also identify specific highlight-reel plays and hustle plays. Return ONLY valid JSON:\n{"points":0,"oreb":0,"dreb":0,"assists":0,"steals":0,"blocks":0,"turnovers":0,"deflections":0,"minutesPlayed":0,"fgMade":0,"fgAttempted":0,"threeMade":0,"threeAttempted":0,"ftMade":0,"ftAttempted":0,"observations":"2-3 sentences","flaggedPlays":[{"type":"highlight or hustle","quarter":"Q1","description":"specific play"}]}`;
+    setProgress(0, `Preparing to analyze ${frameCount} frames from ${fmtTime(duration)} of footage...`);
 
-    setStatus('Analyzing with AI...');
-    const payload = { model:ANTHROPIC_MODEL, max_tokens:1500,
-      messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:mediaType,data:base64}},{type:'text',text:prompt}]}]
+    // Build frame thumbnails in UI
+    timestamps.forEach((t, i) => {
+      const div = document.createElement('div');
+      div.className = 'frame-thumb';
+      div.id = `ft-${i}`;
+      div.innerHTML = `<div style="width:100%;height:100%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:11px;color:#999;">${fmtTime(t)}</div><span class="frame-time">${fmtTime(t)}</span><span class="frame-status pending" id="fs-${i}">•</span>`;
+      document.getElementById('frameGrid').appendChild(div);
+    });
+
+    // Process each frame
+    let allObservations = [];
+
+    for (let i = 0; i < timestamps.length; i++) {
+      const t = timestamps[i];
+      setProgress(Math.round((i / timestamps.length) * 85), `Analyzing frame ${i+1} of ${timestamps.length} (${fmtTime(t)})...`);
+      document.getElementById(`fs-${i}`).textContent = '...';
+      document.getElementById(`fs-${i}`).className = 'frame-status active';
+
+      // Extract frame
+      const b64 = await extractFrame(video, t);
+
+      // Update thumbnail
+      const thumb = document.getElementById(`ft-${i}`);
+      thumb.innerHTML = `<img src="data:image/jpeg;base64,${b64}"><span class="frame-time">${fmtTime(t)}</span><span class="frame-status active" id="fs-${i}">...</span>`;
+
+      // Build context from previous observations
+      const prevContext = allObservations.length > 0
+        ? `\n\nPREVIOUS FRAMES CONTEXT (running totals so far):\nPoints: ${runningStats.points}, Off Reb: ${runningStats.oreb}, Def Reb: ${runningStats.dreb}, Assists: ${runningStats.assists}, Steals: ${runningStats.steals}, Blocks: ${runningStats.blocks}, Turnovers: ${runningStats.turnovers}, Deflections: ${runningStats.deflections}, FG: ${runningStats.fgMade}/${runningStats.fgAttempted}, 3PT: ${runningStats.threeMade}/${runningStats.threeAttempted}, FT: ${runningStats.ftMade}/${runningStats.ftAttempted}\n\nPlays already logged: ${runningStats.flaggedPlays.length}`
+        : '';
+
+      const prompt = `You are analyzing basketball game footage frame by frame to track stats for a specific player.
+
+PLAYER: ${player}, Jersey #${jersey}
+GAME: vs ${opponent}, ${quarter}
+TIMESTAMP: ${fmtTime(t)} into the clip (frame ${i+1} of ${timestamps.length})
+TOTAL CLIP DURATION: ${fmtTime(duration)}${prevContext}
+
+Look carefully at this frame. Find player #${jersey} (${player}).
+
+For THIS FRAME ONLY, identify any of the following that are clearly visible or strongly implied by what you see:
+- Scoring plays (note if it's a 2-pointer, 3-pointer, or free throw)
+- Rebounds (note if offensive or defensive)  
+- Assists, steals, blocks, deflections, turnovers
+- Any hustle plays (diving for ball, taking a charge, boxing out hard)
+- Any highlight-worthy plays
+
+Also look for any visible scoreboard, stats overlay, or game clock that shows accumulated stats.
+
+Return ONLY valid JSON:
+{
+  "playerVisible": true or false,
+  "scoreboardVisible": true or false,
+  "scoreboardStats": null or {"points":0,"oreb":0,"dreb":0,"assists":0,"steals":0,"blocks":0,"turnovers":0,"fgMade":0,"fgAttempted":0,"threeMade":0,"threeAttempted":0,"ftMade":0,"ftAttempted":0},
+  "playsThisFrame": [
+    {"statType": "points2" or "points3" or "ft" or "oreb" or "dreb" or "assist" or "steal" or "block" or "turnover" or "deflection", "count": 1, "description": "brief description"}
+  ],
+  "flaggedPlays": [
+    {"type": "highlight" or "hustle", "description": "specific description of the play"}
+  ],
+  "frameNote": "one sentence about what you see this player doing in this frame"
+}`;
+
+      try {
+        const aiResp = await callAI({
+          model: ANTHROPIC_MODEL,
+          max_tokens: 800,
+          messages: [{ role:'user', content:[
+            { type:'image', source:{ type:'base64', media_type:'image/jpeg', data:b64 } },
+            { type:'text', text:prompt }
+          ]}]
+        });
+
+        const text = aiResp.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+        const frameData = JSON.parse(text);
+
+        // If scoreboard is visible and has data, use those numbers as ground truth
+        if (frameData.scoreboardVisible && frameData.scoreboardStats) {
+          const sb = frameData.scoreboardStats;
+          // Only update if scoreboard shows higher values (cumulative)
+          if (sb.points > runningStats.points) runningStats.points = sb.points;
+          if (sb.oreb > runningStats.oreb) runningStats.oreb = sb.oreb;
+          if (sb.dreb > runningStats.dreb) runningStats.dreb = sb.dreb;
+          if (sb.assists > runningStats.assists) runningStats.assists = sb.assists;
+          if (sb.steals > runningStats.steals) runningStats.steals = sb.steals;
+          if (sb.blocks > runningStats.blocks) runningStats.blocks = sb.blocks;
+          if (sb.turnovers > runningStats.turnovers) runningStats.turnovers = sb.turnovers;
+          if (sb.fgMade > runningStats.fgMade) runningStats.fgMade = sb.fgMade;
+          if (sb.fgAttempted > runningStats.fgAttempted) runningStats.fgAttempted = sb.fgAttempted;
+          if (sb.threeMade > runningStats.threeMade) runningStats.threeMade = sb.threeMade;
+          if (sb.threeAttempted > runningStats.threeAttempted) runningStats.threeAttempted = sb.threeAttempted;
+          if (sb.ftMade > runningStats.ftMade) runningStats.ftMade = sb.ftMade;
+          if (sb.ftAttempted > runningStats.ftAttempted) runningStats.ftAttempted = sb.ftAttempted;
+        } else {
+          // Accumulate from observed plays
+          (frameData.playsThisFrame||[]).forEach(play => {
+            const n = play.count || 1;
+            if (play.statType==='points2') { runningStats.points+=2*n; runningStats.fgMade+=n; runningStats.fgAttempted+=n; }
+            else if (play.statType==='points3') { runningStats.points+=3*n; runningStats.threeMade+=n; runningStats.threeAttempted+=n; runningStats.fgMade+=n; runningStats.fgAttempted+=n; }
+            else if (play.statType==='ft') { runningStats.points+=n; runningStats.ftMade+=n; runningStats.ftAttempted+=n; }
+            else if (play.statType==='fgMiss') { runningStats.fgAttempted+=n; }
+            else if (play.statType==='oreb') runningStats.oreb+=n;
+            else if (play.statType==='dreb') runningStats.dreb+=n;
+            else if (play.statType==='assist') runningStats.assists+=n;
+            else if (play.statType==='steal') runningStats.steals+=n;
+            else if (play.statType==='block') runningStats.blocks+=n;
+            else if (play.statType==='turnover') runningStats.turnovers+=n;
+            else if (play.statType==='deflection') runningStats.deflections+=n;
+
+            // Log to plays feed
+            if (play.description) {
+              addPlayToLog(play.description, 'stat', fmtTime(t));
+            }
+          });
+        }
+
+        // Add flagged plays
+        (frameData.flaggedPlays||[]).forEach(p => {
+          runningStats.flaggedPlays.push({ type:p.type, quarter, description:p.description });
+          addPlayToLog(p.description, p.type, fmtTime(t));
+        });
+
+        allObservations.push(frameData.frameNote || '');
+        updateLiveStats();
+
+        document.getElementById(`fs-${i}`).textContent = '✓';
+        document.getElementById(`fs-${i}`).className = 'frame-status done';
+
+      } catch(frameErr) {
+        console.error('Frame error:', frameErr);
+        document.getElementById(`fs-${i}`).textContent = '!';
+        document.getElementById(`fs-${i}`).className = 'frame-status pending';
+      }
+
+      // Small delay to avoid rate limiting
+      await new Promise(r => setTimeout(r, 300));
+    }
+
+    // Final analysis pass
+    setProgress(90, 'Generating final analysis...');
+    document.getElementById('liveBadge').textContent = 'DONE';
+    document.getElementById('liveBadge').style.background = '#4caf7d';
+    document.getElementById('liveBadge').style.animation = 'none';
+
+    runningStats.minutesPlayed = Math.round(duration / 60);
+    const analysis = await generateAnalysis(player, runningStats, opponent);
+
+    setProgress(100, 'Done!');
+
+    const entry = {
+      id: Date.now().toString(), player, opponent, date, jersey,
+      stats: { ...runningStats },
+      analysis,
+      source: uploadedFile.name + ' (' + quarter + ')'
     };
-    const d = await callScript({ action:'callAI', payload: JSON.stringify(payload) });
-    if (d.error) throw new Error(d.error);
-    const stats = JSON.parse(d.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim());
-
-    setStatus('Generating analysis...');
-    const analysis = await generateAnalysis(player, stats, opponent);
-    const entry = { id: Date.now().toString(), player, opponent, date, jersey, stats, analysis,
-      source: currentSource==='drive' ? selectedDriveFileName : uploadedFile?.name };
     gameHistory.unshift(entry);
-    if (sheetsReady) { setStatus('Saving to Google Sheets...'); await saveEntryToSheets(entry); }
-    setStatus(''); renderResults(entry);
+    if (sheetsReady) {
+      setProgress(100, 'Saving to Google Sheets...');
+      await saveEntryToSheets(entry);
+    }
+
+    renderFinalResults(entry);
+    document.getElementById('resultsArea').style.display = '';
+
   } catch(e) {
     console.error(e);
-    const msg = e?.message || String(e);
-    if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('CORS')) {
-      setStatus('API blocked — open this file from GitHub Pages, not as a local file. See instructions below.');
-      document.getElementById('corsWarning').style.display = '';
-    } else if (msg.includes('401') || msg.includes('403')) {
-      setStatus('API authentication error — the Anthropic API key in the file may be missing or invalid.');
-    } else if (msg.includes('JSON')) {
-      setStatus('Unexpected response from AI — try a clearer screenshot with good lighting.');
-    } else {
-      setStatus('Error: ' + msg);
-    }
+    setProgress(0, 'Error: ' + (e.message || String(e)));
   }
+
   btn.disabled = false;
 }
 
+function addPlayToLog(desc, type, time) {
+  const log = document.getElementById('playsLog');
+  const div = document.createElement('div');
+  div.className = `play-entry ${type==='highlight'?'highlight-play':type==='hustle'?'hustle-play':'stat-play'}`;
+  const badgeClass = type==='highlight'?'hl':type==='hustle'?'hu':'st';
+  const badgeLabel = type==='highlight'?'Highlight':type==='hustle'?'Hustle':'Play';
+  div.innerHTML = `<span class="play-badge ${badgeClass}">${badgeLabel}</span><span class="play-desc">${desc}</span><span class="play-time">${time}</span>`;
+  log.insertBefore(div, log.firstChild);
+}
+
+function updateLiveStats() {
+  document.getElementById('ls-points').textContent = runningStats.points;
+  document.getElementById('ls-fg').textContent = runningStats.fgMade+'/'+runningStats.fgAttempted;
+  document.getElementById('ls-3pt').textContent = runningStats.threeMade+'/'+runningStats.threeAttempted;
+  document.getElementById('ls-ft').textContent = runningStats.ftMade+'/'+runningStats.ftAttempted;
+  document.getElementById('ls-oreb').textContent = runningStats.oreb;
+  document.getElementById('ls-dreb').textContent = runningStats.dreb;
+  document.getElementById('ls-reb').textContent = runningStats.oreb+runningStats.dreb;
+  document.getElementById('ls-ast').textContent = runningStats.assists;
+  document.getElementById('ls-stl').textContent = runningStats.steals;
+  document.getElementById('ls-blk').textContent = runningStats.blocks;
+  document.getElementById('ls-defl').textContent = runningStats.deflections;
+  document.getElementById('ls-to').textContent = runningStats.turnovers;
+  document.getElementById('ls-min').textContent = runningStats.minutesPlayed;
+}
+
+function setProgress(pct, msg) {
+  document.getElementById('progressBar').style.width = pct+'%';
+  document.getElementById('progressStatus').textContent = msg;
+  document.getElementById('progressTitle').textContent = pct < 100 ? 'Watching film...' : 'Analysis complete';
+}
+
 async function generateAnalysis(player, stats, opponent) {
-  const mins = stats.minutesPlayed||1, totalReb = (stats.oreb||0)+(stats.dreb||0);
-  const fgPct = stats.fgAttempted ? Math.round(stats.fgMade/stats.fgAttempted*100) : 0;
-  const threePct = stats.threeAttempted ? Math.round(stats.threeMade/stats.threeAttempted*100) : 0;
-  const ftPct = stats.ftAttempted ? Math.round(stats.ftMade/stats.ftAttempted*100) : 0;
-  const hl = (stats.flaggedPlays||[]).filter(p=>p.type==='highlight').length;
-  const hu = (stats.flaggedPlays||[]).filter(p=>p.type==='hustle').length;
-  const prompt = `Basketball analyst. Stats for ${player} vs ${opponent}: Pts:${stats.points} OR:${stats.oreb} DR:${stats.dreb} Reb:${totalReb} Ast:${stats.assists} Stl:${stats.steals} Blk:${stats.blocks} TO:${stats.turnovers} Defl:${stats.deflections} Min:${mins} FG:${stats.fgMade}/${stats.fgAttempted}(${fgPct}%) 3PT:${stats.threeMade}/${stats.threeAttempted}(${threePct}%) FT:${stats.ftMade}/${stats.ftAttempted}(${ftPct}%) Highlights:${hl} Hustle:${hu}\nReturn ONLY JSON: {"topStrength":"","secondStrength":"","topImprovement":"","secondImprovement":"","efficiencySummary":"","efficiencyScores":{"scoring":0,"shooting":0,"defense":0,"rebounding":0,"hustle":0}}`;
-  const d = await callScript({ action:'callAI', payload: JSON.stringify({ model:ANTHROPIC_MODEL, max_tokens:600, messages:[{role:'user',content:prompt}] }) });
-  if (d.error) throw new Error(d.error);
+  const mins=stats.minutesPlayed||1, totalReb=(stats.oreb||0)+(stats.dreb||0);
+  const fgPct=stats.fgAttempted?Math.round(stats.fgMade/stats.fgAttempted*100):0;
+  const hl=(stats.flaggedPlays||[]).filter(p=>p.type==='highlight').length;
+  const hu=(stats.flaggedPlays||[]).filter(p=>p.type==='hustle').length;
+  const prompt=`Basketball analyst. Stats for ${player} vs ${opponent}: Pts:${stats.points} OR:${stats.oreb} DR:${stats.dreb} Reb:${totalReb} Ast:${stats.assists} Stl:${stats.steals} Blk:${stats.blocks} TO:${stats.turnovers} Defl:${stats.deflections} Min:${mins} FG:${stats.fgMade}/${stats.fgAttempted}(${fgPct}%) Highlights:${hl} Hustle:${hu}\nReturn ONLY JSON: {"topStrength":"","secondStrength":"","topImprovement":"","secondImprovement":"","efficiencySummary":"","efficiencyScores":{"scoring":0,"shooting":0,"defense":0,"rebounding":0,"hustle":0}}`;
+  const d = await callAI({ model:ANTHROPIC_MODEL, max_tokens:600, messages:[{role:'user',content:prompt}] });
   return JSON.parse(d.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim());
 }
 
-function toBase64(file) {
-  return new Promise((res,rej) => { const r = new FileReader(); r.onload = () => res(r.result.split(',')[1]); r.onerror = rej; r.readAsDataURL(file); });
-}
-
-// ── RENDER ────────────────────────────────────────────────────────────────────
 function pct(m,a){if(!a)return'—';return Math.round(m/a*100)+'%';}
 function per36(v,m){if(!m)return'—';return(v/m*36).toFixed(1);}
 function r1(v){return Math.round(v*10)/10;}
 
-function renderResults(entry) {
+function renderFinalResults(entry) {
   const s=entry.stats, a=entry.analysis, mins=s.minutesPlayed||1, totalReb=(s.oreb||0)+(s.dreb||0);
   const plays=s.flaggedPlays||[];
-  const playsHTML = plays.length ? `<div class="section-label">Flagged plays</div><div class="play-list">${plays.map(p=>`<div class="play-item ${p.type==='highlight'?'highlight-play':'hustle-play'}"><span class="play-badge ${p.type==='highlight'?'hl':'hu'}">${p.type==='highlight'?'Highlight':'Hustle'}</span><span class="play-desc">${p.description}</span><span class="play-quarter">${p.quarter||''}</span></div>`).join('')}</div>` : '';
-  const effHTML = a ? `<div class="section-label">Efficiency</div><div class="eff-wrap">${[['Scoring',a.efficiencyScores.scoring,'#3b7dd8'],['Shooting',a.efficiencyScores.shooting,'#1a7a4a'],['Defense',a.efficiencyScores.defense,'#c0392b'],['Rebounding',a.efficiencyScores.rebounding,'#6c3eb8'],['Hustle',a.efficiencyScores.hustle,'#c87d00']].map(([l,v,c])=>`<div class="efficiency-row"><div class="eff-label">${l}</div><div class="eff-bar-wrap"><div class="eff-bar" style="width:${v}%;background:${c};"></div></div><div class="eff-val">${v}</div></div>`).join('')}<div style="font-size:13px;color:#888;margin-top:10px;line-height:1.6;">${a.efficiencySummary}</div></div><div class="section-label">Strengths</div><div class="analysis-block strength">${a.topStrength}<br><br>${a.secondStrength}</div><div class="section-label">Areas to improve</div><div class="analysis-block improve">${a.topImprovement}<br><br>${a.secondImprovement}</div>` : '';
-  const area = document.getElementById('resultsArea'); area.style.display = '';
-  area.innerHTML = `<div class="result-header"><div class="result-player">${entry.player}</div><div class="result-game">vs ${entry.opponent} · ${entry.date}</div></div>
+  const playsHTML=plays.length?`<div class="section-label">Flagged plays</div><div class="play-list">${plays.map(p=>`<div class="play-item ${p.type==='highlight'?'highlight-play':'hustle-play'}"><span class="play-badge2 ${p.type==='highlight'?'hl':'hu'}">${p.type==='highlight'?'Highlight':'Hustle'}</span><span class="play-desc2">${p.description}</span><span class="play-quarter">${p.quarter||''}</span></div>`).join('')}</div>`:'';
+  const effHTML=a?`<div class="section-label">Efficiency</div><div class="eff-wrap">${[['Scoring',a.efficiencyScores.scoring,'#3b7dd8'],['Shooting',a.efficiencyScores.shooting,'#1a7a4a'],['Defense',a.efficiencyScores.defense,'#c0392b'],['Rebounding',a.efficiencyScores.rebounding,'#6c3eb8'],['Hustle',a.efficiencyScores.hustle,'#c87d00']].map(([l,v,c])=>`<div class="efficiency-row"><div class="eff-label">${l}</div><div class="eff-bar-wrap"><div class="eff-bar" style="width:${v}%;background:${c};"></div></div><div class="eff-val">${v}</div></div>`).join('')}<div style="font-size:13px;color:#888;margin-top:10px;line-height:1.6;">${a.efficiencySummary}</div></div><div class="section-label">Strengths</div><div class="analysis-block strength">${a.topStrength}<br><br>${a.secondStrength}</div><div class="section-label">Areas to improve</div><div class="analysis-block improve">${a.topImprovement}<br><br>${a.secondImprovement}</div>`:'';
+  document.getElementById('resultsArea').innerHTML=`
+    <div class="result-header" style="margin-top:20px;"><div class="result-player">${entry.player} — Final</div><div class="result-game">vs ${entry.opponent} · ${entry.date}</div></div>
     <div class="section-label">Scoring</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">Points</div><div class="stat-val blue">${s.points}</div></div><div class="stat-card"><div class="stat-label">FG%</div><div class="stat-val">${pct(s.fgMade,s.fgAttempted)}</div></div><div class="stat-card"><div class="stat-label">3PT%</div><div class="stat-val">${pct(s.threeMade,s.threeAttempted)}</div></div><div class="stat-card"><div class="stat-label">FT%</div><div class="stat-val">${pct(s.ftMade,s.ftAttempted)}</div></div></div>
-    <div class="section-label">Rebounds</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">Off reb</div><div class="stat-val green">${s.oreb}</div></div><div class="stat-card"><div class="stat-label">Def reb</div><div class="stat-val green">${s.dreb}</div></div><div class="stat-card"><div class="stat-label">Total reb</div><div class="stat-val">${totalReb}</div></div><div class="stat-card"><div class="stat-label">Assists</div><div class="stat-val">${s.assists}</div></div></div>
+    <div class="section-label">Rebounds</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">Off reb</div><div class="stat-val green">${s.oreb}</div></div><div class="stat-card"><div class="stat-label">Def reb</div><div class="stat-val green">${s.dreb}</div></div><div class="stat-card"><div class="stat-label">Total</div><div class="stat-val">${totalReb}</div></div><div class="stat-card"><div class="stat-label">Assists</div><div class="stat-val">${s.assists}</div></div></div>
     <div class="section-label">Defense & hustle</div><div class="stat-grid-5"><div class="stat-card"><div class="stat-label">Steals</div><div class="stat-val green">${s.steals}</div></div><div class="stat-card"><div class="stat-label">Blocks</div><div class="stat-val green">${s.blocks}</div></div><div class="stat-card"><div class="stat-label">Deflections</div><div class="stat-val green">${s.deflections}</div></div><div class="stat-card"><div class="stat-label">Turnovers</div><div class="stat-val amber">${s.turnovers}</div></div><div class="stat-card"><div class="stat-label">Minutes</div><div class="stat-val blue">${s.minutesPlayed}</div></div></div>
     <div class="section-label">Per 36 minutes</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">Points</div><div class="stat-val">${per36(s.points,mins)}</div></div><div class="stat-card"><div class="stat-label">Rebounds</div><div class="stat-val">${per36(totalReb,mins)}</div></div><div class="stat-card"><div class="stat-label">Assists</div><div class="stat-val">${per36(s.assists,mins)}</div></div><div class="stat-card"><div class="stat-label">Def plays</div><div class="stat-val">${per36((s.steals||0)+(s.blocks||0)+(s.deflections||0),mins)}</div></div></div>
-    ${playsHTML}${effHTML}${s.observations?`<div class="section-label">What the footage showed</div><div class="notes-block">${s.observations}</div>`:''}`;
+    ${playsHTML}${effHTML}`;
 }
 
+// ── HISTORY ───────────────────────────────────────────────────────────────────
 function setHistoryFilter(f,el){historyFilter=f;document.querySelectorAll('#tab-history .pf-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderHistory();}
 function renderHistory() {
-  const list = document.getElementById('historyList');
-  const filtered = historyFilter==='all' ? gameHistory : gameHistory.filter(e=>e.player===historyFilter);
-  if (!filtered.length) { list.innerHTML='<div class="history-empty">No games logged yet.</div>'; return; }
-  list.innerHTML = filtered.map(entry => {
-    const s=entry.stats, totalReb=(s.oreb||0)+(s.dreb||0), plays=s.flaggedPlays||[];
-    const hlCount=plays.filter(p=>p.type==='highlight').length, huCount=plays.filter(p=>p.type==='hustle').length;
-    const flagHTML = (hlCount||huCount) ? `<div class="history-flags">${hlCount?`<span class="flag-pill hl">${hlCount} highlight${hlCount!==1?'s':''}</span>`:''} ${huCount?`<span class="flag-pill hu">${huCount} hustle play${huCount!==1?'s':''}</span>`:''}</div>` : '';
+  const list=document.getElementById('historyList');
+  const filtered=historyFilter==='all'?gameHistory:gameHistory.filter(e=>e.player===historyFilter);
+  if(!filtered.length){list.innerHTML='<div class="history-empty">No games logged yet.</div>';return;}
+  list.innerHTML=filtered.map(entry=>{
+    const s=entry.stats,totalReb=(s.oreb||0)+(s.dreb||0),plays=s.flaggedPlays||[];
+    const hlCount=plays.filter(p=>p.type==='highlight').length,huCount=plays.filter(p=>p.type==='hustle').length;
+    const flagHTML=(hlCount||huCount)?`<div class="history-flags">${hlCount?`<span class="flag-pill hl">${hlCount} highlight${hlCount!==1?'s':''}</span>`:''} ${huCount?`<span class="flag-pill hu">${huCount} hustle play${huCount!==1?'s':''}</span>`:''}</div>`:'';
     return `<div class="history-item" onclick="viewEntry('${entry.id}')"><div class="history-top"><div class="history-name">${entry.player} vs ${entry.opponent}</div><div class="history-date">${entry.date}</div></div><div class="history-stats">${s.points} pts · ${s.oreb} or/${s.dreb} dr · ${s.assists} ast · ${s.steals} stl · ${s.blocks} blk · ${s.deflections} defl · ${s.minutesPlayed} min</div>${flagHTML}</div>`;
   }).join('');
 }
 
+// ── SEASON ────────────────────────────────────────────────────────────────────
 function setSeasonPlayer(p,el){seasonPlayer=p;document.querySelectorAll('#tab-season .pf-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderSeason();}
 function renderSeason() {
-  const content = document.getElementById('seasonContent');
-  const games = gameHistory.filter(e=>e.player===seasonPlayer);
-  if (!games.length) { content.innerHTML='<div class="history-empty">No games logged for '+seasonPlayer+' yet.</div>'; return; }
-  const avg = k => games.map(g=>g.stats[k]||0).reduce((a,b)=>a+b,0)/games.length;
-  const sum = (arr,fn) => arr.reduce((a,g)=>a+fn(g),0);
+  const content=document.getElementById('seasonContent');
+  const games=gameHistory.filter(e=>e.player===seasonPlayer);
+  if(!games.length){content.innerHTML='<div class="history-empty">No games logged for '+seasonPlayer+' yet.</div>';return;}
+  const avg=k=>games.map(g=>g.stats[k]||0).reduce((a,b)=>a+b,0)/games.length;
+  const sum=(arr,fn)=>arr.reduce((a,g)=>a+fn(g),0);
   const tFGM=sum(games,g=>g.stats.fgMade||0),tFGA=sum(games,g=>g.stats.fgAttempted||0);
   const t3M=sum(games,g=>g.stats.threeMade||0),t3A=sum(games,g=>g.stats.threeAttempted||0);
   const tFTM=sum(games,g=>g.stats.ftMade||0),tFTA=sum(games,g=>g.stats.ftAttempted||0);
@@ -606,9 +674,9 @@ function renderSeason() {
   const bestScoring=games.reduce((a,b)=>b.stats.points>a.stats.points?b:a);
   const bestDef=games.reduce((a,b)=>((b.stats.steals||0)+(b.stats.blocks||0)+(b.stats.deflections||0))>((a.stats.steals||0)+(a.stats.blocks||0)+(a.stats.deflections||0))?b:a);
   const bestReb=games.reduce((a,b)=>((b.stats.oreb||0)+(b.stats.dreb||0))>((a.stats.oreb||0)+(a.stats.dreb||0))?b:a);
-  content.innerHTML=`<div class="season-summary">${games.length} game${games.length!==1?'s':''} logged · ${totalHL} highlights · ${totalHU} hustle plays flagged</div>
+  content.innerHTML=`<div class="season-summary">${games.length} game${games.length!==1?'s':''} logged · ${totalHL} highlights · ${totalHU} hustle plays</div>
     <div class="section-label">Scoring averages</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">Pts/game</div><div class="stat-val blue">${r1(avgPts)}</div></div><div class="stat-card"><div class="stat-label">Ast/game</div><div class="stat-val">${r1(avgAst)}</div></div><div class="stat-card"><div class="stat-label">Min/game</div><div class="stat-val">${r1(avgMin)}</div></div><div class="stat-card"><div class="stat-label">Pts/36</div><div class="stat-val">${avgMin?r1(avgPts/avgMin*36):'—'}</div></div></div>
-    <div class="section-label">Rebound averages</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">Off reb</div><div class="stat-val green">${r1(avgOR)}</div></div><div class="stat-card"><div class="stat-label">Def reb</div><div class="stat-val green">${r1(avgDR)}</div></div><div class="stat-card"><div class="stat-label">Total reb</div><div class="stat-val">${r1(avgReb)}</div></div><div class="stat-card"><div class="stat-label">Reb/36</div><div class="stat-val">${avgMin?r1(avgReb/avgMin*36):'—'}</div></div></div>
+    <div class="section-label">Rebound averages</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">Off reb</div><div class="stat-val green">${r1(avgOR)}</div></div><div class="stat-card"><div class="stat-label">Def reb</div><div class="stat-val green">${r1(avgDR)}</div></div><div class="stat-card"><div class="stat-label">Total</div><div class="stat-val">${r1(avgReb)}</div></div><div class="stat-card"><div class="stat-label">Reb/36</div><div class="stat-val">${avgMin?r1(avgReb/avgMin*36):'—'}</div></div></div>
     <div class="section-label">Defense averages</div><div class="stat-grid-5"><div class="stat-card"><div class="stat-label">Steals</div><div class="stat-val green">${r1(avgStl)}</div></div><div class="stat-card"><div class="stat-label">Blocks</div><div class="stat-val green">${r1(avgBlk)}</div></div><div class="stat-card"><div class="stat-label">Deflections</div><div class="stat-val green">${r1(avgDefl)}</div></div><div class="stat-card"><div class="stat-label">Turnovers</div><div class="stat-val amber">${r1(avgTO)}</div></div><div class="stat-card"><div class="stat-label">FG%</div><div class="stat-val">${pct(tFGM,tFGA)}</div></div></div>
     <div class="section-label">Shooting splits</div><div class="stat-grid"><div class="stat-card"><div class="stat-label">FG%</div><div class="stat-val">${pct(tFGM,tFGA)}</div></div><div class="stat-card"><div class="stat-label">3PT%</div><div class="stat-val">${pct(t3M,t3A)}</div></div><div class="stat-card"><div class="stat-label">FT%</div><div class="stat-val">${pct(tFTM,tFTA)}</div></div><div class="stat-card"><div class="stat-label">3PT made</div><div class="stat-val">${t3M}/${t3A}</div></div></div>
     <div class="section-label">Standout games</div>
@@ -617,29 +685,32 @@ function renderSeason() {
     <div class="history-item" onclick="viewEntry('${bestReb.id}')"><div class="history-top"><div class="history-name">Best rebounding — vs ${bestReb.opponent}</div><div class="history-date">${bestReb.date}</div></div><div class="history-stats">${bestReb.stats.oreb} or/${bestReb.stats.dreb} dr · ${(bestReb.stats.oreb||0)+(bestReb.stats.dreb||0)} total</div></div>`;
 }
 
+// ── REEL ──────────────────────────────────────────────────────────────────────
 function setReelFilter(f,el){reelFilter=f;document.querySelectorAll('#tab-reel .pf-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderReel();}
 function renderReel() {
-  const content = document.getElementById('reelContent');
-  let games = gameHistory;
-  if (reelFilter==='Kayla'||reelFilter==='Kenzie') games=games.filter(g=>g.player===reelFilter);
-  const allPlays = [];
-  games.forEach(g => (g.stats.flaggedPlays||[]).forEach(p => {
-    if (reelFilter==='highlight'&&p.type!=='highlight') return;
-    if (reelFilter==='hustle'&&p.type!=='hustle') return;
-    allPlays.push({...p, player:g.player, opponent:g.opponent, date:g.date, gameId:g.id});
+  const content=document.getElementById('reelContent');
+  let games=gameHistory;
+  if(reelFilter==='Kayla'||reelFilter==='Kenzie') games=games.filter(g=>g.player===reelFilter);
+  const allPlays=[];
+  games.forEach(g=>(g.stats.flaggedPlays||[]).forEach(p=>{
+    if(reelFilter==='highlight'&&p.type!=='highlight') return;
+    if(reelFilter==='hustle'&&p.type!=='hustle') return;
+    allPlays.push({...p,player:g.player,opponent:g.opponent,date:g.date,gameId:g.id});
   }));
-  if (!allPlays.length) { content.innerHTML='<div class="history-empty">No flagged plays yet. Analyze some game footage to start building your reel.</div>'; return; }
-  const byGame = {};
-  allPlays.forEach(p => { const k=p.gameId; if(!byGame[k]) byGame[k]={player:p.player,opponent:p.opponent,date:p.date,plays:[]}; byGame[k].plays.push(p); });
-  content.innerHTML = Object.values(byGame).map(g => `<div class="reel-game-label">${g.player} vs ${g.opponent}</div><div class="reel-game-sub">${g.date} · ${g.plays.length} play${g.plays.length!==1?'s':''}</div><div class="play-list" style="margin-bottom:16px;">${g.plays.map(p=>`<div class="play-item ${p.type==='highlight'?'highlight-play':'hustle-play'}"><span class="play-badge ${p.type==='highlight'?'hl':'hu'}">${p.type==='highlight'?'Highlight':'Hustle'}</span><span class="play-desc">${p.description}</span><span class="play-quarter">${p.quarter||''}</span></div>`).join('')}</div>`).join('');
+  if(!allPlays.length){content.innerHTML='<div class="history-empty">No flagged plays yet.</div>';return;}
+  const byGame={};
+  allPlays.forEach(p=>{const k=p.gameId;if(!byGame[k])byGame[k]={player:p.player,opponent:p.opponent,date:p.date,plays:[]};byGame[k].plays.push(p);});
+  content.innerHTML=Object.values(byGame).map(g=>`<div class="reel-game-label">${g.player} vs ${g.opponent}</div><div class="reel-game-sub">${g.date} · ${g.plays.length} play${g.plays.length!==1?'s':''}</div><div class="play-list" style="margin-bottom:16px;">${g.plays.map(p=>`<div class="play-item ${p.type==='highlight'?'highlight-play':'hustle-play'}"><span class="play-badge2 ${p.type==='highlight'?'hl':'hu'}">${p.type==='highlight'?'Highlight':'Hustle'}</span><span class="play-desc2">${p.description}</span><span class="play-quarter">${p.quarter||''}</span></div>`).join('')}</div>`).join('');
 }
 
-function viewEntry(id) {
-  const entry = gameHistory.find(e=>e.id==id); if(!entry) return;
-  switchMainTab('analyze', document.querySelectorAll('.tab')[0]);
-  renderResults(entry);
+function viewEntry(id){
+  const entry=gameHistory.find(e=>e.id==id);if(!entry)return;
+  switchTab('analyze',document.querySelectorAll('.tab')[0]);
+  renderFinalResults(entry);
+  document.getElementById('resultsArea').style.display='';
+  document.getElementById('progressWrap').style.display='none';
+  document.getElementById('liveStats').style.display='none';
 }
-function setStatus(msg) { document.getElementById('statusBar').textContent = msg; }
 </script>
 </body>
 </html>
